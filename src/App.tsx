@@ -3,6 +3,7 @@ import { useState } from 'react'
 
 const navLinks = [
   { label: 'Projeler', href: '#projeler' },
+  { label: 'Kurumsal', href: '#kurumsal' },
   { label: 'Hakkımda', href: '#hakkimda' },
   { label: 'İletişim', href: '#iletisim' },
 ]
@@ -22,6 +23,7 @@ interface Project {
   status: 'active' | 'completed' | 'paused'
   accent: string
   timeline: TimelineItem[]
+  url?: string
 }
 
 const projects: Project[] = [
@@ -62,12 +64,90 @@ const projects: Project[] = [
     accent: 'from-purple-400/70 to-pink-400/50',
     timeline: []
   },
+  {
+    id: 'nova-sapiens',
+    name: 'Nova Sapiens',
+    description: 'AI projelerini sergileyen kişisel portfolio ve hub sitesi',
+    tech: ['React', 'TypeScript', 'Vite', 'Tailwind', 'Framer Motion'],
+    status: 'active',
+    accent: 'from-cyan-400/70 to-indigo-400/50',
+    timeline: [
+      { date: '2026-01-28', type: 'feat', title: 'Kurumsal çalışmalar', description: 'GoArt AI projeleri eklendi' },
+      { date: '2025-12-10', type: 'feat', title: 'İlk sürüm', description: 'Portfolio sitesi yayında' },
+    ]
+  },
+  {
+    id: 'charamotion',
+    name: 'CharaMotion',
+    description: 'AI Influencer platformu - Nano Banana Studio ile karakter bazlı içerik üretimi ve sosyal medya otomasyonu',
+    tech: ['TypeScript', 'Next.js', 'AI Image Gen', 'Vercel'],
+    status: 'active',
+    accent: 'from-pink-400/70 to-rose-400/50',
+    url: 'https://charamotion.vercel.app',
+    timeline: [
+      { date: '2026-01-22', type: 'feat', title: 'Platform lansmanı', description: 'Vercel deployment' },
+      { date: '2026-01-20', type: 'feat', title: 'Proje başlangıcı', description: 'TypeScript altyapısı' },
+    ]
+  },
 ]
 
 const stats = [
-  { label: 'Aktif Proje', value: '3' },
+  { label: 'Aktif Proje', value: '5' },
   { label: 'Toplam Commit', value: '50+' },
-  { label: 'Kullanılan Tech', value: '12' },
+  { label: 'Kullanılan Tech', value: '15+' },
+]
+
+interface CorporateWork {
+  company: string
+  role: string
+  period: string
+  projects: {
+    name: string
+    description: string
+    tools: string[]
+  }[]
+  accent: string
+}
+
+const corporateWorks: CorporateWork[] = [
+  {
+    company: 'GoArt',
+    role: 'AI & Growth Specialist',
+    period: '2025 - Devam',
+    accent: 'from-blue-400/70 to-purple-400/50',
+    projects: [
+      {
+        name: 'Telegram Bot',
+        description: 'Kullanıcı etkileşimi, otomatik bildirimler ve AI destekli sohbet özellikleri',
+        tools: ['Telegram API', 'Node.js', 'GPT'],
+      },
+      {
+        name: 'GoArtStrategy',
+        description: 'Sezonluk içerik planlaması, rakip analizi ve strateji dashboard\'u',
+        tools: ['Next.js', 'Analytics', 'Data Viz'],
+      },
+      {
+        name: 'Performance Marketing Tool',
+        description: 'Kampanya performans takibi, ROI analizi ve otomatik raporlama',
+        tools: ['Python', 'Analytics API', 'Automation'],
+      },
+      {
+        name: 'Product Marketing Alignment',
+        description: 'Ürün-pazar uyumu analizi ve go-to-market strateji çalışmaları',
+        tools: ['Market Research', 'AI Analysis'],
+      },
+      {
+        name: 'Visual Kite',
+        description: 'Marka uyumlu statik görseller, sosyal medya asset\'leri üretimi',
+        tools: ['Nano Banana Pro', 'AI Image Gen'],
+      },
+      {
+        name: 'Manus Sunumları',
+        description: 'Yatırımcı ve partner sunumları için AI destekli içerik ve tasarım',
+        tools: ['Manus', 'Presentation AI'],
+      },
+    ],
+  },
 ]
 
 const floatingOrbs = [
@@ -246,7 +326,20 @@ function App() {
                   </div>
                   <div className="flex items-center justify-between text-xs text-slate-400">
                     <span>{project.timeline.length} güncelleme</span>
-                    <span className="text-cyan-300">Timeline'ı gör →</span>
+                    <div className="flex items-center gap-3">
+                      {project.url && (
+                        <a
+                          href={project.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="text-emerald-300 hover:text-emerald-200 transition"
+                        >
+                          Canlı →
+                        </a>
+                      )}
+                      <span className="text-cyan-300">Timeline'ı gör →</span>
+                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -310,6 +403,67 @@ function App() {
           </motion.section>
         )}
 
+        {/* Corporate AI Work Section */}
+        <section id="kurumsal" className="mb-16">
+          <motion.h2
+            className="text-2xl font-semibold text-white mb-6"
+            initial="hidden"
+            animate="visible"
+            variants={fadeIn}
+            custom={5}
+          >
+            Kurumsal AI Çalışmaları
+          </motion.h2>
+
+          <motion.div
+            className="space-y-6"
+            initial="hidden"
+            animate="visible"
+            variants={fadeIn}
+            custom={6}
+          >
+            {corporateWorks.map((work) => (
+              <div
+                key={work.company}
+                className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur"
+              >
+                <div className={`absolute inset-0 bg-gradient-to-br ${work.accent} opacity-10`} />
+                <div className="relative">
+                  <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+                    <div>
+                      <h3 className="text-xl font-semibold text-white">{work.company}</h3>
+                      <p className="text-sm text-cyan-300">{work.role}</p>
+                    </div>
+                    <span className="text-xs text-slate-400 mt-2 md:mt-0">{work.period}</span>
+                  </div>
+
+                  <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                    {work.projects.map((project) => (
+                      <div
+                        key={project.name}
+                        className="rounded-xl border border-white/5 bg-white/5 p-4"
+                      >
+                        <h4 className="text-white font-medium mb-2">{project.name}</h4>
+                        <p className="text-sm text-slate-400 mb-3">{project.description}</p>
+                        <div className="flex flex-wrap gap-1.5">
+                          {project.tools.map((tool) => (
+                            <span
+                              key={tool}
+                              className="text-xs px-2 py-0.5 rounded-full bg-white/10 text-slate-300"
+                            >
+                              {tool}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </section>
+
         {/* About Section */}
         <section id="hakkimda" className="mb-16">
           <motion.div
@@ -317,7 +471,7 @@ function App() {
             initial="hidden"
             animate="visible"
             variants={fadeIn}
-            custom={5}
+            custom={7}
           >
             <h2 className="text-2xl font-semibold text-white mb-4">Hakkımda</h2>
             <p className="text-slate-300 mb-4">
@@ -343,7 +497,7 @@ function App() {
             <h2 className="text-2xl font-semibold text-white mb-4">İletişim</h2>
             <p className="text-slate-300 mb-6">Projeler hakkında konuşmak ister misin?</p>
             <motion.a
-              href="mailto:alperen@novasapiens.com"
+              href="mailto:alperen@novasapiens.io"
               whileHover={{ y: -2, scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-emerald-400 via-cyan-300 to-indigo-300 px-6 py-3 text-sm font-semibold text-slate-900 shadow-glow transition"
