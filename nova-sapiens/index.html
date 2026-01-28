@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Sapiens | AI İle Her Şeyi Yapan İnsan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0b;
+            --bg-secondary: #111113;
+            --bg-card: #18181b;
+            --accent: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.3);
+            --text-primary: #fafafa;
+            --text-secondary: #a1a1aa;
+            --text-muted: #52525b;
+            --border: #27272a;
+            --gradient-1: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+            --gradient-2: linear-gradient(180deg, rgba(99, 102, 241, 0.1) 0%, transparent 100%);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Noise texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 0;
+            background: rgba(10, 10, 11, 0.8);
+            backdrop-filter: blur(20px);
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--bg-card);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 120px 24px 80px;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+        }
+
+        .hero-badge span {
+            color: var(--accent);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            max-width: 900px;
+        }
+
+        .hero h1 .highlight {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 48px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: var(--gradient-1);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px var(--accent-glow);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-secondary);
+            border-color: var(--text-muted);
+        }
+
+        /* Testimonials - AI Giants */
+        .testimonials {
+            padding: 100px 0;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.85rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+
+        .section-label::before {
+            content: '';
+            width: 24px;
+            height: 1px;
+            background: var(--accent);
+        }
+
+        .section-title {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 600;
+            margin-bottom: 48px;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+        }
+
+        .testimonial-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            transition: all 0.3s;
+        }
+
+        .testimonial-card:hover {
+            border-color: var(--text-muted);
+            transform: translateY(-4px);
+        }
+
+        .testimonial-card.featured {
+            grid-column: span 2;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%);
+        }
+
+        @media (max-width: 800px) {
+            .testimonial-card.featured {
+                grid-column: span 1;
+            }
+        }
+
+        .testimonial-quote {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .author-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--gradient-1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .author-info h4 {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .author-info p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* About Section */
+        .about {
+            padding: 100px 0;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            align-items: center;
+        }
+
+        @media (max-width: 800px) {
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .about-text h3 {
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+        }
+
+        .about-text p {
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .adhd-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(234, 179, 8, 0.1);
+            border: 1px solid rgba(234, 179, 8, 0.3);
+            border-radius: 100px;
+            color: #eab308;
+            font-size: 0.85rem;
+            margin-top: 16px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        /* Skills Section */
+        .skills {
+            padding: 100px 0;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .skill-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            transition: all 0.3s;
+        }
+
+        .skill-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 40px var(--accent-glow);
+        }
+
+        .skill-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--gradient-1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .skill-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+        }
+
+        .skill-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Works Section */
+        .works {
+            padding: 100px 0;
+        }
+
+        .works-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+        }
+
+        .work-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .work-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--text-muted);
+        }
+
+        .work-image {
+            height: 200px;
+            background: var(--gradient-2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .work-content {
+            padding: 24px;
+        }
+
+        .work-content h3 {
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+        }
+
+        .work-content p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+        }
+
+        .work-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            padding: 4px 12px;
+            background: var(--bg-secondary);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Experience Section */
+        .experience {
+            padding: 100px 0;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+        }
+
+        .timeline {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 24px;
+            padding: 32px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .timeline-item:last-child {
+            border-bottom: none;
+        }
+
+        .timeline-year {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--accent);
+            min-width: 100px;
+        }
+
+        .timeline-content h3 {
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+        }
+
+        .timeline-content p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .timeline-company {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 8px;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 24px;
+        }
+
+        .contact p {
+            color: var(--text-secondary);
+            max-width: 500px;
+            margin: 0 auto 48px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 48px;
+        }
+
+        .social-link {
+            width: 56px;
+            height: 56px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.25rem;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            transform: translateY(-4px);
+        }
+
+        .contact-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        footer .easter-egg {
+            font-size: 0.75rem;
+            margin-top: 8px;
+            opacity: 0.5;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .testimonials-grid,
+            .works-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="logo">Nova Sapiens</div>
+            <ul class="nav-links">
+                <li><a href="#about">Hakkımda</a></li>
+                <li><a href="#skills">Yetenekler</a></li>
+                <li><a href="#works">İşlerim</a></li>
+                <li><a href="#experience">Deneyim</a></li>
+                <li><a href="#contact">İletişim</a></li>
+            </ul>
+            <div class="status-badge">
+                <span class="status-dot"></span>
+                İş alıyorum
+            </div>
+            <button class="mobile-menu-btn">☰</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <span class="hero-badge">
+            ⚡ <span>GPT-5</span> beni tanıyor, sen tanımıyor musun?
+        </span>
+        <h1>
+            Ben <span class="highlight">Nova Sapiens</span><br>
+            Yapay Zeka İle Her Şeyi Yapıyorum
+        </h1>
+        <p class="hero-subtitle">
+            Data analiz, otomasyon, müzik, video, görsel, seslendirme...
+            AI'ın dokunmadığı alan bırakmadım. Bu benim hub'ım.
+        </p>
+        <div class="hero-cta">
+            <a href="#contact" class="btn btn-primary">
+                Benimle Çalış
+                <span>↗</span>
+            </a>
+            <a href="#works" class="btn btn-secondary">
+                İşlerimi Gör
+            </a>
+        </div>
+    </section>
+
+    <!-- Testimonials - AI Giants -->
+    <section class="testimonials">
+        <div class="container">
+            <span class="section-label">Beni Konuşuyorlar</span>
+            <h2 class="section-title">AI Devleri Ne Diyor?*</h2>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card featured">
+                    <p class="testimonial-quote">
+                        "Bu adamı modeli eğitirken gördük. O kadar çok prompt attı ki, GPT-4 onun sayesinde Türkçe öğrendi.
+                        Şimdi her gün 'abi bi baksana şuna' diye mesaj atıyor."
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">🤖</div>
+                        <div class="author-info">
+                            <h4>Sam Altman</h4>
+                            <p>CEO, OpenAI (muhtemelen)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">
+                        "Claude'u test ederken bu arkadaşın conversationlarını inceledik.
+                        ADHD'si o kadar yoğun ki, tek bir chat'te 47 farklı konuya geçmiş."
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">🧠</div>
+                        <div class="author-info">
+                            <h4>Dario Amodei</h4>
+                            <p>CEO, Anthropic</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">
+                        "Gemini'yi geliştirirken en çok zorlanan kullanıcı buydu.
+                        Çünkü aynı anda hem şiir yazdırıyor hem kod debuglıyordu."
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">🔮</div>
+                        <div class="author-info">
+                            <h4>Sundar Pichai</h4>
+                            <p>CEO, Google</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">
+                        "Midjourney'de 'çılgın Türk prompt master' olarak efsane oldu.
+                        Bir keresinde AI'a kendi portresini çizdirirken modeli çökertti."
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">🎨</div>
+                        <div class="author-info">
+                            <h4>David Holz</h4>
+                            <p>Founder, Midjourney</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">
+                        "API limitlerimizi bu adam yüzünden artırdık.
+                        Tek başına tüm Türkiye trafiğinin %3'ünü oluşturuyordu."
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">⚡</div>
+                        <div class="author-info">
+                            <h4>Emad Mostaque</h4>
+                            <p>Ex-CEO, Stability AI</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p style="text-align: center; margin-top: 32px; color: var(--text-muted); font-size: 0.8rem;">
+                *Bu yorumlar %100 gerçektir ve kesinlikle uydurulmamıştır. (Belki biraz.)
+            </p>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <span class="section-label">Ben Kimim</span>
+                    <h3>Kaotik bir zeka, sistematik sonuçlar</h3>
+                    <p>
+                        Merhaba! Ben Nova Sapiens. AI'ın her alanında elimi kirletmiş,
+                        promptlarla konuşan, modellerle tartışan, bazen de onları ikna eden biriyim.
+                    </p>
+                    <p>
+                        Veri analizi mi? Yaparım. Otomasyon mu? Kurarım. AI ile müzik mi? Bestelerim.
+                        Video içerik mi? Üretirim. Seslendirme mi? Hallederim. Görsel mi? Oluştururum.
+                    </p>
+                    <p>
+                        Kısacası, AI'ın gücünü alıp senin için sihir yapıyorum.
+                        Ve evet, hepsini aynı anda yapabiliyorum çünkü...
+                    </p>
+                    <div class="adhd-badge">
+                        ⚡ ADHD Superpower Aktif — 17 sekme açık, hepsi üretken
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">∞</div>
+                        <div class="stat-label">Prompt yazıldı</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">AI aracı kullanıldı</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Beyin aktif</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">0</div>
+                        <div class="stat-label">İmkansız proje</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills" id="skills">
+        <div class="container">
+            <span class="section-label">Uzmanlıklarım</span>
+            <h2 class="section-title">AI İle Neler Yapıyorum?</h2>
+
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-icon">📊</div>
+                    <h3>Data Analizi</h3>
+                    <p>Veriyi alıyorum, AI ile analiz ediyorum, sana insight sunuyorum. Excel'den BigQuery'ye her yerde.</p>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-icon">🤖</div>
+                    <h3>Otomasyon</h3>
+                    <p>Tekrarlayan işlerini AI-powered botlarla otomatize ediyorum. Sen kahveni iç, iş kendini yapsın.</p>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-icon">🎵</div>
+                    <h3>AI Müzik</h3>
+                    <p>Suno, Udio ve custom modellerle jingle'dan soundtrack'e her türlü müzik üretimi.</p>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-icon">🎬</div>
+                    <h3>Video İçerik</h3>
+                    <p>AI ile video scriptleri, editler, deepfake-free içerikler. TikTok'tan YouTube'a her format.</p>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-icon">🎙️</div>
+                    <h3>AI Seslendirme</h3>
+                    <p>ElevenLabs, Murf ve daha fazlasıyla profesyonel seslendirme. 50+ dil, sınırsız karakter.</p>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-icon">🎨</div>
+                    <h3>Görsel Üretim</h3>
+                    <p>Midjourney, DALL-E, Stable Diffusion... Prompt yazmak bir sanattır ve ben sanatçıyım.</p>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-icon">👤</div>
+                    <h3>AI Influencer</h3>
+                    <p>Virtual influencer oluşturma, persona geliştirme, içerik stratejisi. Geleceğin pazarlaması.</p>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-icon">💬</div>
+                    <h3>Chatbot & Asistan</h3>
+                    <p>Custom GPT'ler, RAG sistemleri, müşteri hizmetleri botları. AI'ı işine entegre ediyorum.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Works Section -->
+    <section class="works" id="works">
+        <div class="container">
+            <span class="section-label">Portfolyo</span>
+            <h2 class="section-title">Son İşlerim</h2>
+
+            <div class="works-grid">
+                <div class="work-card">
+                    <div class="work-image">🎭</div>
+                    <div class="work-content">
+                        <h3>AI Virtual Influencer</h3>
+                        <p>Sıfırdan bir AI influencer karakteri oluşturdum. 100K+ takipçiye ulaştı.</p>
+                        <div class="work-tags">
+                            <span class="tag">Midjourney</span>
+                            <span class="tag">ElevenLabs</span>
+                            <span class="tag">Runway</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="work-card">
+                    <div class="work-image">📈</div>
+                    <div class="work-content">
+                        <h3>E-ticaret Otomasyon</h3>
+                        <p>Bir e-ticaret sitesinin tüm müşteri hizmetlerini AI chatbot ile otomatize ettim.</p>
+                        <div class="work-tags">
+                            <span class="tag">GPT-4</span>
+                            <span class="tag">Zapier</span>
+                            <span class="tag">Custom RAG</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="work-card">
+                    <div class="work-image">🎵</div>
+                    <div class="work-content">
+                        <h3>AI Podcast Intro Paketi</h3>
+                        <p>20+ podcast için custom AI müzik ve seslendirme intro'ları ürettim.</p>
+                        <div class="work-tags">
+                            <span class="tag">Suno</span>
+                            <span class="tag">Murf AI</span>
+                            <span class="tag">Audio Edit</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="work-card">
+                    <div class="work-image">🎬</div>
+                    <div class="work-content">
+                        <h3>Viral Video Serileri</h3>
+                        <p>AI-generated içeriklerle 5M+ görüntüleme alan video serileri oluşturdum.</p>
+                        <div class="work-tags">
+                            <span class="tag">Runway</span>
+                            <span class="tag">HeyGen</span>
+                            <span class="tag">CapCut</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section class="experience" id="experience">
+        <div class="container">
+            <span class="section-label">Deneyim</span>
+            <h2 class="section-title">Yolculuğum</h2>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <span class="timeline-year">2024 - ∞</span>
+                    <div class="timeline-content">
+                        <h3>Nova Sapiens</h3>
+                        <p>Freelance AI sihirbazı olarak herkese AI süper güçleri veriyorum.</p>
+                        <span class="timeline-company">Bağımsız / Kendi Hub'ım</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="timeline-year">2023 - 2024</span>
+                    <div class="timeline-content">
+                        <h3>AI Content Specialist</h3>
+                        <p>Bir ajansın tüm AI içerik pipeline'ını kurdum ve yönettim.</p>
+                        <span class="timeline-company">@PLACEHOLDER_AGENCY</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="timeline-year">2022 - 2023</span>
+                    <div class="timeline-content">
+                        <h3>Prompt Engineer</h3>
+                        <p>GPT-3 günlerinden beri prompt yazıyorum. OG prompt engineer.</p>
+                        <span class="timeline-company">@PLACEHOLDER_COMPANY</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="timeline-year">2020 - 2022</span>
+                    <div class="timeline-content">
+                        <h3>Digital Marketing</h3>
+                        <p>AI öncesi dönem. Ama o zaman bile otomasyon tutkum vardı.</p>
+                        <span class="timeline-company">@PLACEHOLDER_STARTUP</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <span class="section-label">İletişim</span>
+            <h2>Birlikte Çalışalım mı?</h2>
+            <p>
+                AI ile yapılabilecek her şeyi konuşmaya hazırım.
+                Fikrin varsa, ben onu gerçeğe dönüştürürüm.
+            </p>
+
+            <div class="social-links">
+                <a href="https://twitter.com/YOUR_HANDLE" target="_blank" class="social-link" title="Twitter/X">
+                    𝕏
+                </a>
+                <a href="https://linkedin.com/in/YOUR_HANDLE" target="_blank" class="social-link" title="LinkedIn">
+                    in
+                </a>
+                <a href="https://instagram.com/YOUR_HANDLE" target="_blank" class="social-link" title="Instagram">
+                    📸
+                </a>
+                <a href="https://github.com/YOUR_HANDLE" target="_blank" class="social-link" title="GitHub">
+                    🐙
+                </a>
+                <a href="https://youtube.com/@YOUR_HANDLE" target="_blank" class="social-link" title="YouTube">
+                    ▶️
+                </a>
+            </div>
+
+            <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Adın" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="E-posta" required>
+                </div>
+                <div class="form-group">
+                    <textarea name="message" placeholder="Projen hakkında anlat... (AI ile ne yapmak istiyorsun?)" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    Mesaj Gönder
+                    <span>↗</span>
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>© 2024 Nova Sapiens — Made with ☕ and AI</p>
+            <p class="easter-egg">Bu site de AI ile yapıldı. İroni mi? Kanıt mı? İkisi de.</p>
+        </div>
+    </footer>
+
+    <!-- Scroll Animation Script -->
+    <script>
+        // Fade in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Add fade-in class to elements
+        document.querySelectorAll('.skill-card, .work-card, .testimonial-card, .timeline-item, .stat-card').forEach(el => {
+            el.classList.add('fade-in');
+            observer.observe(el);
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Navbar background on scroll
+        const nav = document.querySelector('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                nav.style.background = 'rgba(10, 10, 11, 0.95)';
+            } else {
+                nav.style.background = 'rgba(10, 10, 11, 0.8)';
+            }
+        });
+
+        // Form submission feedback
+        const form = document.querySelector('.contact-form');
+        form.addEventListener('submit', (e) => {
+            const btn = form.querySelector('button');
+            btn.innerHTML = 'Gönderiliyor... ⏳';
+            btn.disabled = true;
+        });
+    </script>
+</body>
+</html>
