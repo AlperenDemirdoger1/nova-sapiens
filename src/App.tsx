@@ -90,7 +90,7 @@ const consultingServices: ConsultingService[] = [
     deliverables: ['Süreç taraması & AI fırsat haritası', 'Doğru araç seçimi & entegrasyon', 'Ekip eğitimi & ilk pilot'],
     tools: [
       { name: 'AI Readiness Audit', description: 'Ekibinin hangi süreçleri AI ile otomatize edebileceğini tarayan analiz aracı', status: 'live' },
-      { name: 'Prompt Library', description: 'Sektörüne özel test edilmiş prompt şablonları — marketing, operasyon, müşteri hizmetleri', status: 'live' },
+      { name: 'Prompt Library', description: 'Sektörüne özel test edilmiş prompt şablonları: marketing, operasyon, müşteri hizmetleri', status: 'live' },
       { name: 'ROI Simulator', description: 'AI entegrasyonunun maliyet-getiri analizini gösteren hesaplayıcı', status: 'building' },
     ],
   },
@@ -127,14 +127,14 @@ const consultingServices: ConsultingService[] = [
     tools: [
       { name: 'MVP Scope Builder', description: 'Fikrini 2 haftalık build edilebilir bir MVP\'ye dönüştüren scope aracı', status: 'live' },
       { name: 'AI Model Selector', description: 'Use case\'ine göre doğru AI modeli ve stack\'i öneren karar ağacı', status: 'live' },
-      { name: 'Ship Checklist', description: 'Lansman öncesi kontrol listesi — teknik, marketing, legal', status: 'building' },
+      { name: 'Ship Checklist', description: 'Lansman öncesi kontrol listesi: teknik, marketing, legal', status: 'building' },
     ],
   },
   {
     icon: 'EC',
     category: 'production',
     title: 'E-ticaret Otomasyon',
-    description: 'Etsy\'den Shopify\'a, kendi mağazamı sıfırdan kurdum. Ürün listeleme, sipariş yönetimi, fiyatlama, müşteri iletişimi — hepsini AI ile otomatize ediyorum.',
+    description: 'Etsy\'den Shopify\'a, kendi mağazamı sıfırdan kurdum. Ürün listeleme, sipariş yönetimi, fiyatlama, müşteri iletişimi. Hepsini AI ile otomatize ediyorum.',
     deliverables: ['Mağaza kurulumu & optimizasyon', 'Sipariş-ödeme-kargo otomasyon akışı', 'AI destekli fiyatlama & stok yönetimi'],
     tools: [
       { name: 'Listing Optimizer', description: 'Ürün başlıkları, açıklamaları ve SEO etiketlerini AI ile optimize eden araç', status: 'live' },
@@ -146,12 +146,12 @@ const consultingServices: ConsultingService[] = [
     icon: 'CR',
     category: 'production',
     title: 'AI İçerik Üretimi',
-    description: 'Midjourney, Runway, Suno, ElevenLabs, Kling — son teknoloji AI araçlarıyla görsel, video, ses, kurgu, animasyon ve kısa film üretiyorum. Stüdyo maliyetinin onda biri.',
+    description: 'Midjourney, Runway, Suno, ElevenLabs, Kling. Son teknoloji AI araçlarıyla görsel, video, ses, kurgu, animasyon ve kısa film üretiyorum. Stüdyo maliyetinin onda biri.',
     deliverables: ['Marka uyumlu görsel & video üretimi', 'AI ses ve seslendirme', 'Kısa film & animasyon prodüksiyon'],
     tools: [
-      { name: 'Creative Pipeline', description: 'Brief\'ten son çıktıya kadar AI içerik üretim hattı — görsel, video, ses tek akışta', status: 'live' },
+      { name: 'Creative Pipeline', description: 'Brief\'ten son çıktıya kadar AI içerik üretim hattı: görsel, video, ses tek akışta', status: 'live' },
       { name: 'Brand Style Engine', description: 'Marka kimliğini öğrenip tutarlı görseller üreten özelleştirilmiş model sistemi', status: 'live' },
-      { name: 'Video Autopilot', description: 'Script\'ten montajlı videoya kadar otonom üretim — Runway, Kling, Pika entegrasyonu', status: 'building' },
+      { name: 'Video Autopilot', description: 'Script\'ten montajlı videoya kadar otonom üretim: Runway, Kling, Pika entegrasyonu', status: 'building' },
     ],
   },
   {
@@ -182,7 +182,7 @@ const consultingServices: ConsultingService[] = [
     icon: 'SC',
     category: 'data',
     title: 'Rakip Analiz & Scraping',
-    description: 'Rakiplerinin ne yaptığını tahmin etme, izle. Fiyat, ürün, kampanya, içerik — otomatik veri toplama ve analiz. Rokogame\'de Python ile dashboard kurdum, GoArt\'ta pazar takibi yaptım.',
+    description: 'Rakiplerinin ne yaptığını tahmin etme, izle. Fiyat, ürün, kampanya, içerik. Otomatik veri toplama ve analiz. Rokogame\'de Python ile dashboard kurdum, GoArt\'ta pazar takibi yaptım.',
     deliverables: ['Rakip web sitesi & sosyal medya izleme', 'Otomatik fiyat & ürün takibi', 'Haftalık rakip hareket raporu'],
     tools: [
       { name: 'Competitor Radar', description: 'Rakiplerinin web sitesi, fiyat ve kampanya değişikliklerini otomatik takip eden izleme sistemi', status: 'live' },
@@ -394,7 +394,7 @@ const careerExperiences: CareerExperience[] = [
     highlights: [
       'Made-to-order neon tabelalar ve wind wheel sistemleri tasarlayıp üretti',
       'Etsy ve Shopify üzerinden uçtan uca satış operasyonu kurdu: ürün geliştirme, fotoğrafçılık, SEO, pazarlama, müşteri hizmetleri, lojistik',
-      'Pazar analizi sonrası stratejik karar ile sonlandırıldı — Etsy\'deki en iyi satıcılar bile yeterli kar marjına sahip değildi',
+      'Pazar analizi sonrası stratejik karar ile sonlandırıldı. Etsy\'deki en iyi satıcılar bile yeterli kar marjına sahip değildi',
     ],
   },
 ]
@@ -428,7 +428,7 @@ const skillCategories = [
 const contactOptions = [
   {
     title: 'Bir şeyler yapalım',
-    description: 'AI, growth, ürün &mdash; ne olursa. Bir kahve içelim.',
+    description: 'AI, growth, ürün. Ne olursa. Bir kahve içelim.',
     cta: 'Mail at',
     href: 'mailto:alperen.demirdoger@gmail.com?subject=Merhaba%20Alperen',
     isPrimary: true,
@@ -442,7 +442,7 @@ const contactOptions = [
   },
   {
     title: 'İş fırsatları',
-    description: 'Growth, marketing, AI &mdash; doğru rolse konuşalım.',
+    description: 'Growth, marketing, AI. Doğru rolse konuşalım.',
     cta: "LinkedIn'de bağlan",
     href: 'https://linkedin.com/in/alperen-demird%C3%B6%C4%9Fer-68b726aa',
     isPrimary: false,
@@ -689,7 +689,7 @@ function App() {
               </span>
             </h1>
             <p className="max-w-2xl text-lg text-slate-300 sm:text-xl leading-relaxed">
-              Ben Alperen. Red Bull'dan Coca-Cola'ya, Web3 gaming'den Bakanlığa &mdash; 8 yıldır
+              Ben Alperen. Red Bull'dan Coca-Cola'ya, Web3 gaming'den Bakanlığa. 8 yıldır
               gürültüyü kesen kampanyalar kuruyorum. Gece de AI ile kendi ürünlerimi build ediyorum.
               İkisini birleştirince ortaya bu çıkıyor.
             </p>
@@ -1163,7 +1163,7 @@ function App() {
             <span className="text-xs font-semibold uppercase tracking-widest text-violet-400 mb-3 block">CV</span>
             <h2 className="text-3xl font-display font-semibold text-white mb-2">Nereden geliyorum?</h2>
             <p className="text-slate-400 max-w-2xl">
-              FMCG'den blockchain'e, sahadan AI'ya &mdash; hep aynı şeyi yaptım: insanların dikkatini kazanıp tutmak.
+              FMCG'den blockchain'e, sahadan AI'ya. Hep aynı şeyi yaptım: insanların dikkatini kazanıp tutmak.
               Araçlar değişti, oyun aynı.
             </p>
           </motion.div>
@@ -1302,7 +1302,7 @@ function App() {
                 {education.map((edu) => (
                   <div key={edu.school} className="rounded-xl border border-white/10 bg-white/5 p-4 backdrop-blur">
                     <h4 className="text-white font-medium text-sm">{edu.school}</h4>
-                    <p className="text-xs text-cyan-300">{edu.degree} &mdash; {edu.field}</p>
+                    <p className="text-xs text-cyan-300">{edu.degree}, {edu.field}</p>
                     <p className="text-xs text-slate-400 mt-1">{edu.period}</p>
                     <p className="text-xs text-slate-400 mt-1.5">{edu.note}</p>
                   </div>
