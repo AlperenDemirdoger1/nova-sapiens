@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nova Sapiens | AI İle Her Şeyi Yapan İnsan</title>
+    <title>Alperen Demirdoger | Growth + AI Builder</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -40,7 +40,6 @@
             overflow-x: hidden;
         }
 
-        /* Noise texture overlay */
         body::before {
             content: '';
             position: fixed;
@@ -153,25 +152,8 @@
             pointer-events: none;
         }
 
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 100px;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-bottom: 32px;
-        }
-
-        .hero-badge span {
-            color: var(--accent);
-        }
-
         .hero h1 {
-            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
             font-weight: 700;
             line-height: 1.1;
             margin-bottom: 24px;
@@ -186,10 +168,32 @@
         }
 
         .hero-subtitle {
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             color: var(--text-secondary);
-            max-width: 600px;
+            max-width: 700px;
+            margin-bottom: 32px;
+        }
+
+        /* Stats Row */
+        .hero-stats {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
             margin-bottom: 48px;
+        }
+
+        .hero-stat {
+            padding: 8px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .hero-stat strong {
+            color: var(--text-primary);
         }
 
         .hero-cta {
@@ -235,14 +239,6 @@
             border-color: var(--text-muted);
         }
 
-        /* Testimonials - AI Giants */
-        .testimonials {
-            padding: 100px 0;
-            background: var(--bg-secondary);
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-        }
-
         .section-label {
             display: flex;
             align-items: center;
@@ -267,73 +263,12 @@
             margin-bottom: 48px;
         }
 
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 24px;
-        }
-
-        .testimonial-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 32px;
-            transition: all 0.3s;
-        }
-
-        .testimonial-card:hover {
-            border-color: var(--text-muted);
-            transform: translateY(-4px);
-        }
-
-        .testimonial-card.featured {
-            grid-column: span 2;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%);
-        }
-
-        @media (max-width: 800px) {
-            .testimonial-card.featured {
-                grid-column: span 1;
-            }
-        }
-
-        .testimonial-quote {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-            font-style: italic;
-        }
-
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .author-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: var(--gradient-1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-        }
-
-        .author-info h4 {
-            font-size: 1rem;
-            font-weight: 600;
-        }
-
-        .author-info p {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
         /* About Section */
         .about {
             padding: 100px 0;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
         }
 
         .about-content {
@@ -359,35 +294,22 @@
             margin-bottom: 16px;
         }
 
-        .adhd-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            background: rgba(234, 179, 8, 0.1);
-            border: 1px solid rgba(234, 179, 8, 0.3);
-            border-radius: 100px;
-            color: #eab308;
-            font-size: 0.85rem;
-            margin-top: 16px;
-        }
-
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 24px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
         }
 
         .stat-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 24px;
+            border-radius: 12px;
+            padding: 20px;
             text-align: center;
         }
 
         .stat-number {
-            font-size: 2.5rem;
+            font-size: 1.8rem;
             font-weight: 700;
             background: var(--gradient-1);
             -webkit-background-clip: text;
@@ -396,62 +318,86 @@
         }
 
         .stat-label {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
-            margin-top: 8px;
+            margin-top: 4px;
         }
 
-        /* Skills Section */
+        /* Skills Section - Accordion */
         .skills {
             padding: 100px 0;
-            background: var(--bg-secondary);
-            border-top: 1px solid var(--border);
         }
 
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
+        .skills-accordion {
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-        .skill-card {
+        .skill-item {
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 32px;
-            transition: all 0.3s;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            overflow: hidden;
         }
 
-        .skill-card:hover {
-            border-color: var(--accent);
-            box-shadow: 0 0 40px var(--accent-glow);
+        .skill-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px 24px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .skill-header:hover {
+            background: rgba(99, 102, 241, 0.05);
         }
 
         .skill-icon {
-            width: 56px;
-            height: 56px;
+            width: 48px;
+            height: 48px;
             background: var(--gradient-1);
-            border-radius: 12px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 20px;
+            font-size: 1.3rem;
+            flex-shrink: 0;
         }
 
-        .skill-card h3 {
-            font-size: 1.25rem;
-            margin-bottom: 12px;
+        .skill-header h3 {
+            flex: 1;
+            font-size: 1.1rem;
         }
 
-        .skill-card p {
+        .skill-toggle {
+            color: var(--accent);
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+
+        .skill-item.active .skill-toggle {
+            transform: rotate(180deg);
+        }
+
+        .skill-content {
+            display: none;
+            padding: 0 24px 20px;
             color: var(--text-secondary);
             font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .skill-item.active .skill-content {
+            display: block;
         }
 
         /* Works Section */
         .works {
             padding: 100px 0;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
         }
 
         .works-grid {
@@ -474,7 +420,7 @@
         }
 
         .work-image {
-            height: 200px;
+            height: 180px;
             background: var(--gradient-2);
             display: flex;
             align-items: center;
@@ -487,14 +433,38 @@
         }
 
         .work-content h3 {
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             margin-bottom: 8px;
         }
 
         .work-content p {
             color: var(--text-secondary);
             font-size: 0.9rem;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
+        }
+
+        .work-progress {
+            margin: 16px 0;
+            padding: 12px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            font-size: 0.8rem;
+        }
+
+        .work-progress-title {
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .work-progress ul {
+            margin: 0;
+            padding-left: 16px;
+            color: var(--text-muted);
+        }
+
+        .work-progress li {
+            margin-bottom: 4px;
         }
 
         .work-tags {
@@ -514,8 +484,6 @@
         /* Experience Section */
         .experience {
             padding: 100px 0;
-            background: var(--bg-secondary);
-            border-top: 1px solid var(--border);
         }
 
         .timeline {
@@ -542,7 +510,7 @@
         }
 
         .timeline-content h3 {
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             margin-bottom: 8px;
         }
 
@@ -561,6 +529,8 @@
         .contact {
             padding: 100px 0;
             text-align: center;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
         }
 
         .contact h2 {
@@ -593,6 +563,7 @@
             text-decoration: none;
             font-size: 1.25rem;
             transition: all 0.3s;
+            color: var(--text-primary);
         }
 
         .social-link:hover {
@@ -646,23 +617,7 @@
             font-size: 0.9rem;
         }
 
-        footer .easter-egg {
-            font-size: 0.75rem;
-            margin-top: 8px;
-            opacity: 0.5;
-        }
-
         /* Animations */
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .floating {
-            animation: float 6s ease-in-out infinite;
-        }
-
-        /* Scroll animations */
         .fade-in {
             opacity: 0;
             transform: translateY(20px);
@@ -674,7 +629,7 @@
             transform: translateY(0);
         }
 
-        /* Mobile menu */
+        /* Mobile */
         .mobile-menu-btn {
             display: none;
             background: none;
@@ -693,9 +648,21 @@
                 display: block;
             }
 
-            .testimonials-grid,
             .works-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero-stats {
+                gap: 8px;
+            }
+
+            .hero-stat {
+                font-size: 0.75rem;
+                padding: 6px 12px;
             }
         }
     </style>
@@ -704,17 +671,17 @@
     <!-- Navigation -->
     <nav>
         <div class="container">
-            <div class="logo">Nova Sapiens</div>
+            <div class="logo">Alperen Demirdoger</div>
             <ul class="nav-links">
-                <li><a href="#about">Hakkımda</a></li>
-                <li><a href="#skills">Yetenekler</a></li>
-                <li><a href="#works">İşlerim</a></li>
+                <li><a href="#about">Hakkimda</a></li>
+                <li><a href="#skills">Hizmetler</a></li>
+                <li><a href="#works">Projeler</a></li>
                 <li><a href="#experience">Deneyim</a></li>
-                <li><a href="#contact">İletişim</a></li>
+                <li><a href="#contact">Iletisim</a></li>
             </ul>
             <div class="status-badge">
                 <span class="status-dot"></span>
-                İş alıyorum
+                Is aliyorum
             </div>
             <button class="mobile-menu-btn">☰</button>
         </div>
@@ -722,109 +689,33 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <span class="hero-badge">
-            ⚡ <span>GPT-5</span> beni tanıyor, sen tanımıyor musun?
-        </span>
         <h1>
-            Ben <span class="highlight">Nova Sapiens</span><br>
-            Yapay Zeka İle Her Şeyi Yapıyorum
+            Gunduz <span class="highlight">buyutuyorum</span>.<br>
+            Gece <span class="highlight">build ediyorum</span>.
         </h1>
         <p class="hero-subtitle">
-            Data analiz, otomasyon, müzik, video, görsel, seslendirme...
-            AI'ın dokunmadığı alan bırakmadım. Bu benim hub'ım.
+            Ben Alperen. Red Bull'dan Coca-Cola'ya, Web3 gaming'den Bakanliga.
+            8 yildir gurultuyu kesen kampanyalar kuruyorum. Gece de AI ile kendi urunlerimi build ediyorum.
+            Ikisini birlestirince ortaya bu cikiyor.
         </p>
+
+        <div class="hero-stats">
+            <div class="hero-stat"><strong>1M+</strong> Users Reached</div>
+            <div class="hero-stat"><strong>10+</strong> Yil Deneyim</div>
+            <div class="hero-stat"><strong>7</strong> Sirket</div>
+            <div class="hero-stat"><strong>3</strong> Girisim</div>
+            <div class="hero-stat"><strong>3</strong> Ulke</div>
+            <div class="hero-stat"><strong>ITU MSc</strong> + Bogazici BA</div>
+            <div class="hero-stat"><strong>EN</strong> + <strong>FR</strong></div>
+        </div>
+
         <div class="hero-cta">
             <a href="#contact" class="btn btn-primary">
-                Benimle Çalış
-                <span>↗</span>
+                Benimle Calis
             </a>
             <a href="#works" class="btn btn-secondary">
-                İşlerimi Gör
+                Projelerimi Gor
             </a>
-        </div>
-    </section>
-
-    <!-- Testimonials - AI Giants -->
-    <section class="testimonials">
-        <div class="container">
-            <span class="section-label">Beni Konuşuyorlar</span>
-            <h2 class="section-title">AI Devleri Ne Diyor?*</h2>
-
-            <div class="testimonials-grid">
-                <div class="testimonial-card featured">
-                    <p class="testimonial-quote">
-                        "Bu adamı modeli eğitirken gördük. O kadar çok prompt attı ki, GPT-4 onun sayesinde Türkçe öğrendi.
-                        Şimdi her gün 'abi bi baksana şuna' diye mesaj atıyor."
-                    </p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">🤖</div>
-                        <div class="author-info">
-                            <h4>Sam Altman</h4>
-                            <p>CEO, OpenAI (muhtemelen)</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card">
-                    <p class="testimonial-quote">
-                        "Claude'u test ederken bu arkadaşın conversationlarını inceledik.
-                        ADHD'si o kadar yoğun ki, tek bir chat'te 47 farklı konuya geçmiş."
-                    </p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">🧠</div>
-                        <div class="author-info">
-                            <h4>Dario Amodei</h4>
-                            <p>CEO, Anthropic</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card">
-                    <p class="testimonial-quote">
-                        "Gemini'yi geliştirirken en çok zorlanan kullanıcı buydu.
-                        Çünkü aynı anda hem şiir yazdırıyor hem kod debuglıyordu."
-                    </p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">🔮</div>
-                        <div class="author-info">
-                            <h4>Sundar Pichai</h4>
-                            <p>CEO, Google</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card">
-                    <p class="testimonial-quote">
-                        "Midjourney'de 'çılgın Türk prompt master' olarak efsane oldu.
-                        Bir keresinde AI'a kendi portresini çizdirirken modeli çökertti."
-                    </p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">🎨</div>
-                        <div class="author-info">
-                            <h4>David Holz</h4>
-                            <p>Founder, Midjourney</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card">
-                    <p class="testimonial-quote">
-                        "API limitlerimizi bu adam yüzünden artırdık.
-                        Tek başına tüm Türkiye trafiğinin %3'ünü oluşturuyordu."
-                    </p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">⚡</div>
-                        <div class="author-info">
-                            <h4>Emad Mostaque</h4>
-                            <p>Ex-CEO, Stability AI</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <p style="text-align: center; margin-top: 32px; color: var(--text-muted); font-size: 0.8rem;">
-                *Bu yorumlar %100 gerçektir ve kesinlikle uydurulmamıştır. (Belki biraz.)
-            </p>
         </div>
     </section>
 
@@ -834,99 +725,134 @@
             <div class="about-content">
                 <div class="about-text">
                     <span class="section-label">Ben Kimim</span>
-                    <h3>Kaotik bir zeka, sistematik sonuçlar</h3>
+                    <h3>Growth Marketer + AI Builder</h3>
                     <p>
-                        Merhaba! Ben Nova Sapiens. AI'ın her alanında elimi kirletmiş,
-                        promptlarla konuşan, modellerle tartışan, bazen de onları ikna eden biriyim.
+                        8 yildir global markalarda growth ve pazarlama yapiyorum. Red Bull, Coca-Cola,
+                        Web3 gaming projeleri, hatta Bakanlik... Gurultuyu kesen, donusum saglayan
+                        kampanyalar kurdum.
                     </p>
                     <p>
-                        Veri analizi mi? Yaparım. Otomasyon mu? Kurarım. AI ile müzik mi? Bestelerim.
-                        Video içerik mi? Üretirim. Seslendirme mi? Hallederim. Görsel mi? Oluştururum.
+                        Gece ise AI ile kendi urunlerimi build ediyorum. Chatbotlar, otomasyon sistemleri,
+                        AI-powered araclar... Pazarlamacilik + muhendislik bakis acisini birlestiriyorum.
                     </p>
                     <p>
-                        Kısacası, AI'ın gücünü alıp senin için sihir yapıyorum.
-                        Ve evet, hepsini aynı anda yapabiliyorum çünkü...
+                        Sonuc: Hem buyutmeyi hem uretmeyi bilen, nadir bulunan bir profil.
                     </p>
-                    <div class="adhd-badge">
-                        ⚡ ADHD Superpower Aktif — 17 sekme açık, hepsi üretken
-                    </div>
                 </div>
 
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <div class="stat-number">∞</div>
-                        <div class="stat-label">Prompt yazıldı</div>
+                        <div class="stat-number">10+</div>
+                        <div class="stat-label">Yil</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-number">50+</div>
-                        <div class="stat-label">AI aracı kullanıldı</div>
+                        <div class="stat-number">7</div>
+                        <div class="stat-label">Sirket</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-number">24/7</div>
-                        <div class="stat-label">Beyin aktif</div>
+                        <div class="stat-number">3</div>
+                        <div class="stat-label">Girisim</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-number">0</div>
-                        <div class="stat-label">İmkansız proje</div>
+                        <div class="stat-number">3</div>
+                        <div class="stat-label">Ulke</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">1M+</div>
+                        <div class="stat-label">Users</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">10+</div>
+                        <div class="stat-label">AI Proje</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Skills Section -->
+    <!-- Skills Section - Accordion -->
     <section class="skills" id="skills">
         <div class="container">
-            <span class="section-label">Uzmanlıklarım</span>
-            <h2 class="section-title">AI İle Neler Yapıyorum?</h2>
+            <span class="section-label">Hizmetlerim</span>
+            <h2 class="section-title">Neler Yapiyorum?</h2>
 
-            <div class="skills-grid">
-                <div class="skill-card">
-                    <div class="skill-icon">📊</div>
-                    <h3>Data Analizi</h3>
-                    <p>Veriyi alıyorum, AI ile analiz ediyorum, sana insight sunuyorum. Excel'den BigQuery'ye her yerde.</p>
+            <div class="skills-accordion">
+                <div class="skill-item">
+                    <div class="skill-header" onclick="toggleSkill(this)">
+                        <div class="skill-icon">📈</div>
+                        <h3>Growth Marketing</h3>
+                        <span class="skill-toggle">▼</span>
+                    </div>
+                    <div class="skill-content">
+                        Kullanici edinimi, aktivasyon, retention ve monetizasyon stratejileri.
+                        Data-driven kampanyalar, A/B testler, funnel optimizasyonu.
+                        Red Bull, Coca-Cola gibi global markalarda kanitlanmis sonuclar.
+                    </div>
                 </div>
 
-                <div class="skill-card">
-                    <div class="skill-icon">🤖</div>
-                    <h3>Otomasyon</h3>
-                    <p>Tekrarlayan işlerini AI-powered botlarla otomatize ediyorum. Sen kahveni iç, iş kendini yapsın.</p>
+                <div class="skill-item">
+                    <div class="skill-header" onclick="toggleSkill(this)">
+                        <div class="skill-icon">🤖</div>
+                        <h3>AI Chatbot & Otomasyon</h3>
+                        <span class="skill-toggle">▼</span>
+                    </div>
+                    <div class="skill-content">
+                        GPT-4, Claude ve diger LLM'lerle custom chatbot gelistirme.
+                        CRM entegrasyonlari (Bitrix24, HubSpot), WhatsApp Business API,
+                        lead kalifikasyonu ve otomatik takip sistemleri.
+                    </div>
                 </div>
 
-                <div class="skill-card">
-                    <div class="skill-icon">🎵</div>
-                    <h3>AI Müzik</h3>
-                    <p>Suno, Udio ve custom modellerle jingle'dan soundtrack'e her türlü müzik üretimi.</p>
+                <div class="skill-item">
+                    <div class="skill-header" onclick="toggleSkill(this)">
+                        <div class="skill-icon">📊</div>
+                        <h3>Data Analizi & BI</h3>
+                        <span class="skill-toggle">▼</span>
+                    </div>
+                    <div class="skill-content">
+                        SQL, Python, BigQuery ile veri analizi. Looker, Tableau ile
+                        dashboard olusturma. Pazarlama metriklerinden actionable insight cikarma.
+                        Attribution modelleme, cohort analizi.
+                    </div>
                 </div>
 
-                <div class="skill-card">
-                    <div class="skill-icon">🎬</div>
-                    <h3>Video İçerik</h3>
-                    <p>AI ile video scriptleri, editler, deepfake-free içerikler. TikTok'tan YouTube'a her format.</p>
+                <div class="skill-item">
+                    <div class="skill-header" onclick="toggleSkill(this)">
+                        <div class="skill-icon">🎬</div>
+                        <h3>AI Content & Video</h3>
+                        <span class="skill-toggle">▼</span>
+                    </div>
+                    <div class="skill-content">
+                        AI ile video icerik uretimi, script yazimi, seslendirme.
+                        Runway, HeyGen, ElevenLabs, Midjourney ile produksiyon.
+                        TikTok'tan YouTube'a her formatta icerik stratejisi.
+                    </div>
                 </div>
 
-                <div class="skill-card">
-                    <div class="skill-icon">🎙️</div>
-                    <h3>AI Seslendirme</h3>
-                    <p>ElevenLabs, Murf ve daha fazlasıyla profesyonel seslendirme. 50+ dil, sınırsız karakter.</p>
+                <div class="skill-item">
+                    <div class="skill-header" onclick="toggleSkill(this)">
+                        <div class="skill-icon">🚀</div>
+                        <h3>Product Launch & GTM</h3>
+                        <span class="skill-toggle">▼</span>
+                    </div>
+                    <div class="skill-content">
+                        Yeni urun lansmanlarinda go-to-market stratejisi.
+                        Beta kullanici yonetimi, product-market fit arastirmasi,
+                        lansman kampanyalari ve PR koordinasyonu.
+                    </div>
                 </div>
 
-                <div class="skill-card">
-                    <div class="skill-icon">🎨</div>
-                    <h3>Görsel Üretim</h3>
-                    <p>Midjourney, DALL-E, Stable Diffusion... Prompt yazmak bir sanattır ve ben sanatçıyım.</p>
-                </div>
-
-                <div class="skill-card">
-                    <div class="skill-icon">👤</div>
-                    <h3>AI Influencer</h3>
-                    <p>Virtual influencer oluşturma, persona geliştirme, içerik stratejisi. Geleceğin pazarlaması.</p>
-                </div>
-
-                <div class="skill-card">
-                    <div class="skill-icon">💬</div>
-                    <h3>Chatbot & Asistan</h3>
-                    <p>Custom GPT'ler, RAG sistemleri, müşteri hizmetleri botları. AI'ı işine entegre ediyorum.</p>
+                <div class="skill-item">
+                    <div class="skill-header" onclick="toggleSkill(this)">
+                        <div class="skill-icon">🌐</div>
+                        <h3>Web3 & Gaming</h3>
+                        <span class="skill-toggle">▼</span>
+                    </div>
+                    <div class="skill-content">
+                        Web3 gaming projelerinde growth ve community building deneyimi.
+                        Token ekonomisi, NFT kampanyalari, Discord/Telegram topluluk yonetimi.
+                        Oyuncu edinimi ve engagement stratejileri.
+                    </div>
                 </div>
             </div>
         </div>
@@ -936,46 +862,59 @@
     <section class="works" id="works">
         <div class="container">
             <span class="section-label">Portfolyo</span>
-            <h2 class="section-title">Son İşlerim</h2>
+            <h2 class="section-title">Projelerim</h2>
 
             <div class="works-grid">
                 <div class="work-card" style="cursor: pointer;" onclick="window.open('dental-bot/simulator.html', '_blank')">
                     <div class="work-image" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.1) 100%);">🦷</div>
                     <div class="work-content">
                         <h3>Atlantic Dental AI Bot</h3>
-                        <p>Diş kliniği için AI-powered CRM otomasyonu. Reklam kaynağına göre kişiselleştirilmiş ilk mesaj, 6 farklı onboarding stratejisi.</p>
+                        <p>Dis klinigi icin AI-powered CRM otomasyonu. Reklam kaynagina gore kisisellestirilmis ilk mesaj, 6 farkli onboarding stratejisi.</p>
+                        <div class="work-progress">
+                            <div class="work-progress-title">Tamamlanan:</div>
+                            <ul>
+                                <li>AI ilk mesaj sistemi (6 strateji)</li>
+                                <li>Lead skorlama ve niyet tespiti</li>
+                                <li>WhatsApp API entegrasyonu</li>
+                                <li>Simulator demo sayfasi</li>
+                            </ul>
+                            <div class="work-progress-title" style="margin-top: 8px;">Kalan:</div>
+                            <ul>
+                                <li>Bitrix24 canli entegrasyon</li>
+                                <li>Post-treatment takip akisi</li>
+                                <li>Coklu dil destegi (DE, EN)</li>
+                            </ul>
+                        </div>
                         <div class="work-tags">
                             <span class="tag">OpenAI GPT-4o</span>
                             <span class="tag">WhatsApp API</span>
                             <span class="tag">Bitrix24</span>
-                            <span class="tag">Express.js</span>
                         </div>
-                        <a href="dental-bot/simulator.html" style="display: inline-block; margin-top: 12px; color: var(--accent); font-size: 0.85rem; text-decoration: none;">▶ Canlı Demo →</a>
-                    </div>
-                </div>
-
-                <div class="work-card">
-                    <div class="work-image">🎭</div>
-                    <div class="work-content">
-                        <h3>AI Virtual Influencer</h3>
-                        <p>Sıfırdan bir AI influencer karakteri oluşturdum. 100K+ takipçiye ulaştı.</p>
-                        <div class="work-tags">
-                            <span class="tag">Midjourney</span>
-                            <span class="tag">ElevenLabs</span>
-                            <span class="tag">Runway</span>
-                        </div>
+                        <a href="dental-bot/simulator.html" style="display: inline-block; margin-top: 12px; color: var(--accent); font-size: 0.85rem; text-decoration: none;">Canli Demo</a>
                     </div>
                 </div>
 
                 <div class="work-card">
                     <div class="work-image">📈</div>
                     <div class="work-content">
-                        <h3>E-ticaret Otomasyon</h3>
-                        <p>Bir e-ticaret sitesinin tüm müşteri hizmetlerini AI chatbot ile otomatize ettim.</p>
+                        <h3>E-ticaret Lead Botu</h3>
+                        <p>E-ticaret sitesi icin AI chatbot. Musteri sorularini yanitlama, urun onerisi, siparis takibi.</p>
+                        <div class="work-progress">
+                            <div class="work-progress-title">Tamamlanan:</div>
+                            <ul>
+                                <li>RAG sistemi ile urun bilgisi</li>
+                                <li>Siparis durumu sorgulama</li>
+                            </ul>
+                            <div class="work-progress-title" style="margin-top: 8px;">Kalan:</div>
+                            <ul>
+                                <li>Odeme entegrasyonu</li>
+                                <li>Coklu kanal destegi</li>
+                            </ul>
+                        </div>
                         <div class="work-tags">
                             <span class="tag">GPT-4</span>
-                            <span class="tag">Zapier</span>
-                            <span class="tag">Custom RAG</span>
+                            <span class="tag">Pinecone</span>
+                            <span class="tag">Node.js</span>
                         </div>
                     </div>
                 </div>
@@ -984,11 +923,17 @@
                     <div class="work-image">🎵</div>
                     <div class="work-content">
                         <h3>AI Podcast Intro Paketi</h3>
-                        <p>20+ podcast için custom AI müzik ve seslendirme intro'ları ürettim.</p>
+                        <p>20+ podcast icin custom AI muzik ve seslendirme intro'lari.</p>
+                        <div class="work-progress">
+                            <div class="work-progress-title">Tamamlanan:</div>
+                            <ul>
+                                <li>20+ intro uretildi</li>
+                                <li>Seslendirme + muzik</li>
+                            </ul>
+                        </div>
                         <div class="work-tags">
                             <span class="tag">Suno</span>
-                            <span class="tag">Murf AI</span>
-                            <span class="tag">Audio Edit</span>
+                            <span class="tag">ElevenLabs</span>
                         </div>
                     </div>
                 </div>
@@ -997,7 +942,14 @@
                     <div class="work-image">🎬</div>
                     <div class="work-content">
                         <h3>Viral Video Serileri</h3>
-                        <p>AI-generated içeriklerle 5M+ görüntüleme alan video serileri oluşturdum.</p>
+                        <p>AI-generated iceriklerle 5M+ goruntuleme alan video serileri.</p>
+                        <div class="work-progress">
+                            <div class="work-progress-title">Sonuclar:</div>
+                            <ul>
+                                <li>5M+ toplam goruntuleme</li>
+                                <li>100K+ takipci artisi</li>
+                            </ul>
+                        </div>
                         <div class="work-tags">
                             <span class="tag">Runway</span>
                             <span class="tag">HeyGen</span>
@@ -1013,42 +965,46 @@
     <section class="experience" id="experience">
         <div class="container">
             <span class="section-label">Deneyim</span>
-            <h2 class="section-title">Yolculuğum</h2>
+            <h2 class="section-title">Yolculugum</h2>
 
             <div class="timeline">
                 <div class="timeline-item">
-                    <span class="timeline-year">2024 - ∞</span>
+                    <span class="timeline-year">2024 - Devam</span>
                     <div class="timeline-content">
-                        <h3>Nova Sapiens</h3>
-                        <p>Freelance AI sihirbazı olarak herkese AI süper güçleri veriyorum.</p>
-                        <span class="timeline-company">Bağımsız / Kendi Hub'ım</span>
+                        <h3>Freelance AI Builder + Growth Consultant</h3>
+                        <p>AI chatbot, otomasyon ve growth danismanligi. Kendi urunlerimi build ediyorum.</p>
                     </div>
                 </div>
 
                 <div class="timeline-item">
-                    <span class="timeline-year">2023 - 2024</span>
+                    <span class="timeline-year">2022 - 2024</span>
                     <div class="timeline-content">
-                        <h3>AI Content Specialist</h3>
-                        <p>Bir ajansın tüm AI içerik pipeline'ını kurdum ve yönettim.</p>
-                        <span class="timeline-company">@PLACEHOLDER_AGENCY</span>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <span class="timeline-year">2022 - 2023</span>
-                    <div class="timeline-content">
-                        <h3>Prompt Engineer</h3>
-                        <p>GPT-3 günlerinden beri prompt yazıyorum. OG prompt engineer.</p>
-                        <span class="timeline-company">@PLACEHOLDER_COMPANY</span>
+                        <h3>Growth Lead</h3>
+                        <p>Web3 gaming projesinde growth stratejisi ve execution. 500K+ kullanici edinimi.</p>
                     </div>
                 </div>
 
                 <div class="timeline-item">
                     <span class="timeline-year">2020 - 2022</span>
                     <div class="timeline-content">
-                        <h3>Digital Marketing</h3>
-                        <p>AI öncesi dönem. Ama o zaman bile otomasyon tutkum vardı.</p>
-                        <span class="timeline-company">@PLACEHOLDER_STARTUP</span>
+                        <h3>Senior Digital Marketing Manager</h3>
+                        <p>FMCG sektorunde dijital kampanyalar. Red Bull, Coca-Cola gibi global markalar.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="timeline-year">2017 - 2020</span>
+                    <div class="timeline-content">
+                        <h3>Digital Marketing Specialist</h3>
+                        <p>Ajanslarda ve sirketlerde dijital pazarlama. Performance marketing, sosyal medya.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <span class="timeline-year">Egitim</span>
+                    <div class="timeline-content">
+                        <h3>ITU MSc + Bogazici BA</h3>
+                        <p>Istanbul Teknik Universitesi Yuksek Lisans, Bogazici Universitesi Lisans.</p>
                     </div>
                 </div>
             </div>
@@ -1058,44 +1014,33 @@
     <!-- Contact Section -->
     <section class="contact" id="contact">
         <div class="container">
-            <span class="section-label">İletişim</span>
-            <h2>Birlikte Çalışalım mı?</h2>
+            <span class="section-label">Iletisim</span>
+            <h2>Birlikte Calisalim mi?</h2>
             <p>
-                AI ile yapılabilecek her şeyi konuşmaya hazırım.
-                Fikrin varsa, ben onu gerçeğe dönüştürürüm.
+                Growth, AI veya ikisinin kesisimi... Projen ne olursa olsun konusalim.
             </p>
 
             <div class="social-links">
-                <a href="https://twitter.com/YOUR_HANDLE" target="_blank" class="social-link" title="Twitter/X">
-                    𝕏
+                <a href="https://x.com/dopalivexr" target="_blank" class="social-link" title="Twitter/X">
+                    X
                 </a>
-                <a href="https://linkedin.com/in/YOUR_HANDLE" target="_blank" class="social-link" title="LinkedIn">
+                <a href="https://www.linkedin.com/in/alperen-demird%C3%B6%C4%9Fer-68b726aa/" target="_blank" class="social-link" title="LinkedIn">
                     in
-                </a>
-                <a href="https://instagram.com/YOUR_HANDLE" target="_blank" class="social-link" title="Instagram">
-                    📸
-                </a>
-                <a href="https://github.com/YOUR_HANDLE" target="_blank" class="social-link" title="GitHub">
-                    🐙
-                </a>
-                <a href="https://youtube.com/@YOUR_HANDLE" target="_blank" class="social-link" title="YouTube">
-                    ▶️
                 </a>
             </div>
 
             <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
                 <div class="form-group">
-                    <input type="text" name="name" placeholder="Adın" required>
+                    <input type="text" name="name" placeholder="Adin" required>
                 </div>
                 <div class="form-group">
                     <input type="email" name="email" placeholder="E-posta" required>
                 </div>
                 <div class="form-group">
-                    <textarea name="message" placeholder="Projen hakkında anlat... (AI ile ne yapmak istiyorsun?)" required></textarea>
+                    <textarea name="message" placeholder="Projen hakkinda anlat..." required></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary" style="width: 100%;">
-                    Mesaj Gönder
-                    <span>↗</span>
+                    Mesaj Gonder
                 </button>
             </form>
         </div>
@@ -1104,13 +1049,17 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <p>© 2024 Nova Sapiens — Made with ☕ and AI</p>
-            <p class="easter-egg">Bu site de AI ile yapıldı. İroni mi? Kanıt mı? İkisi de.</p>
+            <p>2025 Alperen Demirdoger</p>
         </div>
     </footer>
 
-    <!-- Scroll Animation Script -->
     <script>
+        // Skill accordion toggle
+        function toggleSkill(header) {
+            const item = header.parentElement;
+            item.classList.toggle('active');
+        }
+
         // Fade in animation on scroll
         const observerOptions = {
             threshold: 0.1,
@@ -1125,13 +1074,12 @@
             });
         }, observerOptions);
 
-        // Add fade-in class to elements
-        document.querySelectorAll('.skill-card, .work-card, .testimonial-card, .timeline-item, .stat-card').forEach(el => {
+        document.querySelectorAll('.skill-item, .work-card, .timeline-item, .stat-card').forEach(el => {
             el.classList.add('fade-in');
             observer.observe(el);
         });
 
-        // Smooth scroll for navigation links
+        // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -1155,11 +1103,11 @@
             }
         });
 
-        // Form submission feedback
+        // Form submission
         const form = document.querySelector('.contact-form');
         form.addEventListener('submit', (e) => {
             const btn = form.querySelector('button');
-            btn.innerHTML = 'Gönderiliyor... ⏳';
+            btn.innerHTML = 'Gonderiliyor...';
             btn.disabled = true;
         });
     </script>

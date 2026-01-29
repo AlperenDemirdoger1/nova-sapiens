@@ -595,9 +595,7 @@ function App() {
       <header className="sticky top-0 z-40 backdrop-blur-xl bg-night/80 border-b border-white/5">
         <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
           <a href="#" className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-glow">
-              <span className="text-lg font-semibold text-white">NS</span>
-            </div>
+            <img src="/ns-logo.png" alt="NS" className="h-10 w-10 object-contain" />
             <div className="flex flex-col leading-tight">
               <span className="text-base font-semibold tracking-tight text-white">Nova Sapiens</span>
               <span className="text-xs text-slate-400">AI Hub</span>
@@ -690,7 +688,7 @@ function App() {
             </h1>
             <p className="max-w-2xl text-lg text-slate-300 sm:text-xl leading-relaxed">
               Ben Alperen. Red Bull'dan Coca-Cola'ya, Web3 gaming'den Bakanlığa. 8 yıldır
-              gürültüyü kesen kampanyalar kuruyorum. Gece de AI ile kendi ürünlerimi build ediyorum.
+              gürültüde farkedilen kampanyalar kuruyorum. Gece de AI ile kendi ürünlerimi build ediyorum.
               İkisini birleştirince ortaya bu çıkıyor.
             </p>
           </motion.div>
@@ -874,7 +872,7 @@ function App() {
                         <div className="flex flex-wrap gap-2 mb-4">
                           {service.deliverables.map((item) => (
                             <span key={item} className="inline-flex items-center gap-1 text-xs text-slate-400 bg-white/5 rounded-full px-2.5 py-1">
-                              <span className="text-emerald-400">&check;</span>
+                              <span className="text-emerald-400">✓</span>
                               {item}
                             </span>
                           ))}
