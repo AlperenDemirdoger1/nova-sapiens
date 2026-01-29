@@ -212,6 +212,7 @@ const projects: Project[] = [
     tech: ['Next.js', 'Firebase', 'TypeScript', 'Tailwind'],
     status: 'active',
     accent: 'from-emerald-400/70 to-cyan-400/50',
+    url: 'https://www.dopa.live',
     timeline: [
       { date: '2026-01-27', type: 'feat', title: 'SmartGoalsWidget', description: 'Doppa önerileriyle hedef takibi' },
       { date: '2026-01-26', type: 'feat', title: 'AI Chat entegrasyonu', description: 'Gerçek zamanlı AI asistan' },
@@ -224,23 +225,27 @@ const projects: Project[] = [
   },
   {
     id: 'niyazi-sniper',
-    name: 'Niyazi the Sniper',
+    name: 'theSniper',
     description: 'Viral tweet\'leri yakala, AI ile reply üret. X\'te büyümek isteyenler için Chrome extension.',
-    tech: ['Chrome Extension', 'TypeScript', 'Vite'],
+    tech: ['Chrome Extension', 'TypeScript', 'Next.js', 'Gemini'],
     status: 'active',
     accent: 'from-orange-400/70 to-red-400/50',
+    url: 'https://thesniper.novasapiens.io',
     timeline: [
       { date: '2026-01-28', type: 'feat', title: 'Extension yapısı', description: 'Temel manifest ve popup' },
     ],
   },
   {
     id: 'wire-fire',
-    name: 'Wire and Fire',
-    description: 'AI ile içerik üretimi. Henüz erken aşamada, sırada bekliyor.',
-    tech: ['React', 'Node.js', 'OpenAI'],
-    status: 'paused',
+    name: 'WireandFire',
+    description: 'ADHD Science Minimalism video production. Remotion Studio ile profesyonel video üretimi.',
+    tech: ['Remotion', 'Claude', 'TypeScript', 'React'],
+    status: 'active',
     accent: 'from-purple-400/70 to-pink-400/50',
-    timeline: [],
+    url: 'https://wireandfire.novasapiens.io',
+    timeline: [
+      { date: '2026-01-29', type: 'feat', title: 'Vercel Deploy', description: 'Remotion Studio canlıda' },
+    ],
   },
   {
     id: 'nova-sapiens',
@@ -257,11 +262,11 @@ const projects: Project[] = [
   {
     id: 'charamotion',
     name: 'CharaMotion',
-    description: 'AI Influencer platformu. Nano Banana Studio ile karakter üretimi ve sosyal medya otomasyonu. Persona cloning at scale.',
-    tech: ['TypeScript', 'Next.js', 'AI Image Gen', 'Vercel'],
+    description: 'AI Influencer platformu. Karakter üretimi ve sosyal medya otomasyonu. Persona cloning at scale.',
+    tech: ['ElevenLabs', 'Nano', 'Banana', 'Kling', 'ProFlow', 'TypeScript'],
     status: 'active',
     accent: 'from-pink-400/70 to-rose-400/50',
-    url: 'https://charamotion.vercel.app',
+    url: 'https://charamotion.novasapiens.io',
     timeline: [
       { date: '2026-01-22', type: 'feat', title: 'Platform lansmanı', description: 'Vercel deployment' },
       { date: '2026-01-20', type: 'feat', title: 'Proje başlangıcı', description: 'TypeScript altyapısı' },
