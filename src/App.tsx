@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 const navLinks = [
   { label: 'Projeler', href: '#projeler' },
-  { label: 'Kurumsal', href: '#kurumsal' },
+  { label: 'Deneyim', href: '#deneyim' },
   { label: 'Hakkımda', href: '#hakkimda' },
   { label: 'İletişim', href: '#iletisim' },
 ]
@@ -147,6 +147,170 @@ const corporateWorks: CorporateWork[] = [
         tools: ['Manus', 'Presentation AI'],
       },
     ],
+  },
+]
+
+interface CareerExperience {
+  company: string
+  role: string
+  period: string
+  location: string
+  highlights: string[]
+  accent: string
+  type: 'corporate' | 'entrepreneurship'
+}
+
+const careerExperiences: CareerExperience[] = [
+  {
+    company: 'GoArt Worlds',
+    role: 'Marketing Lead',
+    period: 'Haziran 2024 - Devam',
+    location: 'İstanbul, TR',
+    type: 'corporate',
+    accent: 'from-blue-400/70 to-purple-400/50',
+    highlights: [
+      '5 kişilik ekip ve 3 ajansı yöneterek multimilyon dolarlık bütçeleri yönetip büyüme stratejisini direkt CEO ve yönetim kuruluna sundu',
+      'UA playbook ile 300K+ kayıtlı kullanıcıya ulaşıldı; Addressable, Telegram, Coinzilla, TikTok, Meta ve Google üzerinden kampanyalar yürütüldü',
+      'Braze entegrasyonu ile 4 lifecycle otomasyon kurularak retention %12 artırıldı',
+      'Trendyol, Halkbank, Polygon, Sui ile co-branding aktivasyonları; TOKEN2049 Dubai ve İstanbul Blockchain Week\'te şirketi temsil etti',
+      'Claude, Manus, Gemini, GPT ile AI-first marketing workflow\'ları ölçeklendi; Jira ile agile süreçler kuruldu',
+    ],
+  },
+  {
+    company: 'Teleporter Realities',
+    role: 'Product Marketing Manager',
+    period: 'Ocak 2023 - Mayıs 2024',
+    location: 'San Mateo, CA',
+    type: 'corporate',
+    accent: 'from-violet-400/70 to-indigo-400/50',
+    highlights: [
+      'Yeni VR oyun özellikleri için go-to-market stratejileri geliştirdi',
+      '9GAG ve Imgur gibi viral platformlarla organik trafikte %500 artış sağladı',
+      'Kapalı beta sürecinde 5.000 üyeli Discord topluluğu kurarak %70 retention elde etti',
+      'Python tabanlı rakip analiz dashboard\'u geliştirerek Oculus pazar aktivitesini takip etti',
+    ],
+  },
+  {
+    company: 'Rokogame Studios',
+    role: 'Growth Marketing Manager',
+    period: 'Ocak 2022 - Ocak 2023',
+    location: 'İstanbul, TR',
+    type: 'corporate',
+    accent: 'from-emerald-400/70 to-teal-400/50',
+    highlights: [
+      'Roco Finance NFT kampanyası 48 saat içinde sold-out oldu',
+      'Aylık $200K bütçeyle Google Ads, Meta, TikTok, Twitch performans pazarlaması; CTR %25, conversion %15 artış',
+      'Elraen ve WTCN gibi Twitch yayıncılarıyla referral trafikte %60 artış, 35.000+ üyeli Discord topluluğu',
+      'Rise Online lansman kampanyası: 200.000 kayıt, 50.000 ilk gün aktif kullanıcı',
+    ],
+  },
+  {
+    company: 'GoTürkiye (Kültür ve Turizm Bakanlığı)',
+    role: 'Marketing Executive',
+    period: 'Ocak 2021 - Ocak 2022',
+    location: 'İstanbul, TR',
+    type: 'corporate',
+    accent: 'from-rose-400/70 to-orange-400/50',
+    highlights: [
+      'Antalya ve Mezopotamya bölgelerinin dijital tanıtımını GoTürkiye ve uluslararası medya kanallarıyla yürüttü',
+      'Cercle etkinlik serisini Türkiye\'ye getirerek 30 milyon+ organik görüntüleme elde etti',
+      '"Taş Tepeler" inisiyatifinde Göbeklitepe dahil 12 arkeolojik alanın isimlendirmeden lansmana kadar sürecine katkı sağladı',
+      '17 ülkeden 50 gazeteci ile PR coverage; Kültür ve Turizm Bakanı\'nın katılımıyla global görünürlük artırıldı',
+    ],
+  },
+  {
+    company: 'Coca-Cola İçecek',
+    role: 'Trade Marketing Specialist',
+    period: 'Ekim 2019 - Ocak 2021',
+    location: 'İstanbul, TR',
+    type: 'corporate',
+    accent: 'from-red-400/70 to-rose-400/50',
+    highlights: [
+      '11 marka genelinde brand ve marketing ekipleri arasında talep planlaması yönetimi',
+      'Tüm perakende kanallarında görünürlük materyalleri planlayıp hayata geçirdi',
+      'Promosyon kampanyaları için saha uygulamaları tasarlayıp ROI raporlaması yaptı',
+    ],
+  },
+  {
+    company: 'Red Bull',
+    role: 'Shopper Marketing Specialist',
+    period: 'Temmuz 2018 - Ekim 2019',
+    location: 'İstanbul, TR',
+    type: 'corporate',
+    accent: 'from-yellow-400/70 to-amber-400/50',
+    highlights: [
+      'Modern ve geleneksel perakendede tüketici aktivasyonları planlayıp yürüttü',
+      'Türkiye genelinde PoP, PoS ve soğutucu dağıtım ve yerleşimini yönetti',
+      'Flugtag, Pac-Man, Red Bull Music Festivalleri gibi global aktivasyonların yerelleştirilmesini koordine etti',
+    ],
+  },
+  {
+    company: 'Kendi Girişimi',
+    role: 'E-ticaret Girişimcisi',
+    period: '2015 - 2018',
+    location: 'İstanbul, TR',
+    type: 'entrepreneurship',
+    accent: 'from-amber-400/70 to-yellow-400/50',
+    highlights: [
+      'Made-to-order neon tabelalar ve wind wheel sistemleri tasarlayıp üretti',
+      'Etsy ve Shopify üzerinden uçtan uca satış operasyonu kurdu: ürün geliştirme, fotoğrafçılık, SEO, pazarlama, müşteri hizmetleri, lojistik',
+      'Pazar analizi sonrası stratejik karar ile sonlandırıldı — Etsy\'deki en iyi satıcılar bile yeterli kar marjına sahip değildi',
+    ],
+  },
+]
+
+interface Education {
+  school: string
+  degree: string
+  field: string
+  period: string
+  gpa: string
+  note: string
+}
+
+const education: Education[] = [
+  {
+    school: 'İstanbul Teknik Üniversitesi',
+    degree: 'Yüksek Lisans (MSc)',
+    field: 'İşletme / Management',
+    period: '2024',
+    gpa: '3.4',
+    note: 'Tez: Retention ve topluluk yönetimi, pazarlama odaklı büyüme stratejileri',
+  },
+  {
+    school: 'Boğaziçi Üniversitesi',
+    degree: 'Lisans (BA)',
+    field: 'Uluslararası Ticaret (İngilizce)',
+    period: '2018',
+    gpa: '2.8',
+    note: 'Tüm seçmeli dersler pazarlama alanında. Öğrencilik yıllarında 3 yıl kendi şirketini kurarak girişimcilik deneyimi',
+  },
+]
+
+const skillCategories = [
+  {
+    title: 'Growth & Acquisition',
+    skills: ['User Acquisition', 'Growth Marketing', 'Performance Marketing', 'SEO', 'Content Strategy'],
+  },
+  {
+    title: 'Reklam & Analitik',
+    skills: ['Google Ads', 'Meta', 'TikTok', 'Twitch', 'AppsFlyer', 'Adjust', 'Google Analytics', 'Firebase'],
+  },
+  {
+    title: 'CRM & Retention',
+    skills: ['Braze', 'Lifecycle Automation', 'Push & Email Journeys', 'Segmentation'],
+  },
+  {
+    title: 'Web3 & Blockchain',
+    skills: ['Tokenomics', 'Airdrop Mechanics', 'Wallet Analytics', 'Web3 Marketing Strategy'],
+  },
+  {
+    title: 'AI & Teknik',
+    skills: ['Claude', 'ChatGPT', 'Manus', 'Gemini', 'Python', 'Midjourney', 'Stable Diffusion', 'Runway'],
+  },
+  {
+    title: 'Marka & İletişim',
+    skills: ['Brand Partnerships', 'Co-Branding', 'Event Marketing', 'Community Management', 'Social Media'],
   },
 ]
 

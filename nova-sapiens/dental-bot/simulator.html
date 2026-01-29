@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atlantic Dental Bot | Nova Sapiens</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-primary: #0a0a0b;
+      --bg-secondary: #111113;
+      --bg-card: #18181b;
+      --accent: #6366f1;
+      --accent-glow: rgba(99, 102, 241, 0.3);
+      --text-primary: #fafafa;
+      --text-secondary: #a1a1aa;
+      --text-muted: #52525b;
+      --border: #27272a;
+      --gradient-1: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+      --success: #22c55e;
+    }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    header {
+      padding: 20px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      background: rgba(10, 10, 11, 0.8);
+      backdrop-filter: blur(20px);
+    }
+
+    .logo {
+      font-size: 1.2rem;
+      font-weight: 700;
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .logo span {
+      font-weight: 400;
+      -webkit-text-fill-color: var(--text-muted);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .faq-btn {
+      padding: 8px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .faq-btn:hover {
+      border-color: var(--accent);
+      color: var(--text-primary);
+    }
+
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: var(--bg-card);
+      border-radius: 100px;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--success);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* Modal Styles */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      max-width: 800px;
+      width: 100%;
+      max-height: 85vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-header {
+      padding: 24px 28px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h2 {
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+
+    .modal-close {
+      width: 36px;
+      height: 36px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .modal-close:hover {
+      border-color: var(--accent);
+      color: var(--text-primary);
+    }
+
+    .modal-body {
+      padding: 24px 28px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .faq-item {
+      margin-bottom: 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .faq-question {
+      padding: 16px 20px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.2s;
+    }
+
+    .faq-question:hover {
+      background: rgba(99, 102, 241, 0.05);
+    }
+
+    .faq-question h3 {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .faq-icon {
+      color: var(--accent);
+      transition: transform 0.3s;
+    }
+
+    .faq-item.active .faq-icon {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      display: none;
+      padding: 0 20px 16px;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    .faq-item.active .faq-answer {
+      display: block;
+    }
+
+    .faq-answer ul {
+      margin: 10px 0;
+      padding-left: 20px;
+    }
+
+    .faq-answer li {
+      margin-bottom: 6px;
+    }
+
+    .faq-answer code {
+      background: var(--bg-primary);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+    }
+
+    .faq-category {
+      font-size: 0.7rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin: 24px 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .faq-category:first-child {
+      margin-top: 0;
+    }
+
+    .faq-category::before {
+      content: '';
+      width: 12px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      height: calc(100vh - 73px);
+    }
+
+    .panel-left {
+      padding: 24px;
+      border-right: 1px solid var(--border);
+      background: var(--bg-secondary);
+      overflow-y: auto;
+    }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.7rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+      margin-top: 24px;
+    }
+
+    .section-label:first-child { margin-top: 0; }
+
+    .section-label::before {
+      content: '';
+      width: 12px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .panel-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px 14px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text-primary);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.9rem;
+      margin-bottom: 14px;
+      transition: all 0.3s;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2352525b' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 14px;
+    }
+
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 14px 20px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: all 0.3s;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background: var(--gradient-1);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px var(--accent-glow);
+    }
+
+    .btn-secondary {
+      background: var(--bg-card);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+      margin-top: 10px;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--text-muted);
+    }
+
+    /* Ad Type Cards */
+    .ad-types {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .ad-type-card {
+      padding: 12px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+
+    .ad-type-card:hover {
+      border-color: var(--text-muted);
+    }
+
+    .ad-type-card.selected {
+      border-color: var(--accent);
+      background: rgba(99, 102, 241, 0.1);
+    }
+
+    .ad-type-card .icon {
+      font-size: 1.5rem;
+      margin-bottom: 6px;
+    }
+
+    .ad-type-card .title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .ad-type-card .desc {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+    }
+
+    /* Lead Card */
+    .lead-card {
+      margin-top: 20px;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .lead-card-title {
+      font-size: 0.7rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+
+    .lead-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    .lead-info span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Right Panel */
+    .panel-right {
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-primary);
+    }
+
+    .chat-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-secondary);
+    }
+
+    .chat-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: var(--gradient-1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+    }
+
+    .chat-info h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .chat-info span {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .onboarding-indicator {
+      margin-left: auto;
+      padding: 6px 12px;
+      background: rgba(99, 102, 241, 0.2);
+      border-radius: 6px;
+      font-size: 0.7rem;
+      color: #a5b4fc;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .message {
+      max-width: 75%;
+      padding: 14px 18px;
+      border-radius: 18px;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .message.bot {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-bottom-left-radius: 6px;
+      align-self: flex-start;
+    }
+
+    .message.user {
+      background: var(--gradient-1);
+      border-bottom-right-radius: 6px;
+      align-self: flex-end;
+    }
+
+    .message-time {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .metadata {
+      display: flex;
+      gap: 6px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      font-size: 0.65rem;
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+    }
+
+    .badge.intent { background: rgba(99, 102, 241, 0.2); border-color: rgba(99, 102, 241, 0.4); color: #a5b4fc; }
+    .badge.score { background: rgba(234, 179, 8, 0.2); border-color: rgba(234, 179, 8, 0.4); color: #fcd34d; }
+    .badge.lang { background: rgba(34, 197, 94, 0.2); border-color: rgba(34, 197, 94, 0.4); color: #86efac; }
+    .badge.stage { background: rgba(236, 72, 153, 0.2); border-color: rgba(236, 72, 153, 0.4); color: #f9a8d4; }
+
+    .chat-input {
+      display: flex;
+      gap: 10px;
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+      background: var(--bg-secondary);
+    }
+
+    .chat-input input {
+      flex: 1;
+      margin: 0;
+    }
+
+    .chat-input button {
+      width: auto;
+      padding: 12px 24px;
+    }
+
+    .status-message {
+      text-align: center;
+      padding: 50px 30px;
+      color: var(--text-muted);
+    }
+
+    .status-message .icon {
+      font-size: 2.5rem;
+      margin-bottom: 12px;
+      opacity: 0.5;
+    }
+
+    .loading {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--border);
+      border-radius: 50%;
+      border-top-color: var(--accent);
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Quick Replies */
+    .quick-replies {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .quick-reply {
+      padding: 8px 14px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .quick-reply:hover {
+      border-color: var(--accent);
+      background: rgba(99, 102, 241, 0.1);
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+      }
+      .panel-left {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        max-height: 45vh;
+      }
+      .ad-types { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Nova Sapiens <span>/ Atlantic Dental Bot</span></div>
+    <div class="header-actions">
+      <button class="faq-btn" onclick="openFaq()">? Nasil Calisir</button>
+      <div class="status-badge">
+        <span class="status-dot"></span>
+        Live Demo
+      </div>
+    </div>
+  </header>
+
+  <!-- FAQ Modal -->
+  <div class="modal-overlay" id="faqModal" onclick="closeFaq(event)">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Sikca Sorulan Sorular</h2>
+        <button class="modal-close" onclick="closeFaq()">&times;</button>
+      </div>
+      <div class="modal-body">
+
+        <div class="faq-category">Genel</div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <h3>Bu sistem ne ise yariyor?</h3>
+            <span class="faq-icon">V</span>
+          </div>
+          <div class="faq-answer">
+            Atlantic Dental Bot, dis kliniklerine gelen leadleri otomatik olarak karsilayan, kisisellestirilmis ilk mesaj gonderen ve satis ekibine sicak lead olarak teslim eden bir AI sistemdir.
+            <ul>
+              <li><strong>Hiz:</strong> Lead geldiginde 5 saniye icinde yanit</li>
+              <li><strong>Kisisellik:</strong> Her lead icin farkli mesaj (kaynak, ulke, ilgi alanina gore)</li>
+              <li><strong>Kalifikasyon:</strong> AI, lead'in skor'unu ve niyetini analiz eder</li>
+              <li><strong>Devir:</strong> Sicak leadler otomatik olarak satis temsilcisine yonlendirilir</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <h3>Hangi kanallari destekliyor?</h3>
+            <span class="faq-icon">V</span>
+          </div>
+          <div class="faq-answer">
+            <ul>
+              <li><strong>WhatsApp Business API:</strong> Ana iletisim kanali</li>
+              <li><strong>Instagram DM:</strong> Meta API uzerinden entegre</li>
+              <li><strong>Facebook Messenger:</strong> Meta API uzerinden entegre</li>
+              <li><strong>Website Form:</strong> Webhook ile entegre</li>
+            </ul>
+            Tum kanallardan gelen mesajlar tek bir sisteme akar ve AI tarafindan islenir.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <h3>6 farkli reklam tipi ne anlama geliyor?</h3>
+            <span class="faq-icon">V</span>
+          </div>
+          <div class="faq-answer">
+            Her reklam kampanyasi farkli bir mesajla hedef kitleye ulasiyor. Sistem, lead'in hangi reklamdan geldigini bildiginde ona gore bir strateji uyguluyor:
+            <ul>
+              <li><strong>Fiyat:</strong> "%70 ucuz" mesajiyla gelen - Fiyat avantajini vurgula</li>
+              <li><strong>Estetik:</strong> "Hollywood gulumu" mesajiyla gelen - Gorsel donusumu vurgula</li>
+              <li><strong>Guven:</strong> "JCI akrediteli" mesajiyla gelen - Sertifika ve deneyimi vurgula</li>
+              <li><strong>Hiz:</strong> "1 haftada tamamla" mesajiyla gelen - Hizli sureci vurgula</li>
+              <li><strong>Agri/Korku:</strong> "Agrisiz tedavi" mesajiyla gelen - Empatik ve rahatlatici ol</li>
+              <li><strong>Sosyal Kanit:</strong> "5000+ hasta" mesajiyla gelen - Basari hikayelerini paylas</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="faq-category">Teknik Entegrasyon</div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <h3>Bitrix24'e nasil baglanir?</h3>
+            <span class="faq-icon">V</span>
+          </div>
+          <div class="faq-answer">
+            Bitrix24 entegrasyonu iki yonlu calisir:
+            <ul>
+              <li><strong>1. Bitrix'ten Bota:</strong> Yeni lead olusturuldugunda Bitrix webhook'u <code>/bitrix/new-lead</code> endpoint'ine POST atar</li>
+              <li><strong>2. Bottan Bitrix'e:</strong> Her konusma sonrasi lead skoru, niyet ve notlar CRM'e yazilir</li>
+            </ul>
+            <br>
+            <strong>Kurulum adimlari:</strong>
+            <ol>
+              <li>Bitrix24'te "Outgoing Webhook" olustur</li>
+              <li>URL olarak: <code>https://your-domain.com/bitrix/new-lead</code></li>
+              <li>Event: "On lead add" (ONLEADADD)</li>
+              <li><code>.env</code> dosyasina Bitrix webhook URL'ini ekle</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <h3>WhatsApp Business API nasil kurulur?</h3>
+            <span class="faq-icon">V</span>
+          </div>
+          <div class="faq-answer">
+            <ol>
+              <li><strong>Meta Developer hesabi:</strong> developers.facebook.com'da hesap olustur</li>
+              <li><strong>WhatsApp Business App:</strong> Yeni bir app olustur ve WhatsApp ekle</li>
+              <li><strong>Test numarasi al:</strong> Sandbox'ta test numarasi kullanabilirsin</li>
+              <li><strong>Webhook ayarla:</strong> <code>https://your-domain.com/webhook</code></li>
+              <li><strong>Verify Token:</strong> <code>.env</code> dosyasindaki VERIFY_TOKEN ile eslessin</li>
+            </ol>
+            <br>
+            <strong>Gerekli env degiskenleri:</strong>
+            <ul>
+              <li><code>WHATSAPP_TOKEN</code> - Meta'dan alinan access token</li>
+              <li><code>WHATSAPP_PHONE_ID</code> - WhatsApp telefon ID'si</li>
+              <li><code>VERIFY_TOKEN</code> - Webhook dogrulama icin</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <h3>Hangi AI modeli kullaniliyor?</h3>
+            <span class="faq-icon">V</span>
+          </div>
+          <div class="faq-answer">
+            Sistem OpenAI'in <strong>GPT-4o-mini</strong> modelini kullaniyor. Bu model:
+            <ul>
+              <li>Hizli yanit suresi (ortalama 1-2 saniye)</li>
+              <li>Dusuk maliyet (GPT-4'un ~%5'i)</li>
+              <li>Cok dilli destek (Turkce, Ingilizce, Almanca)</li>
+              <li>Yeterli zeka seviyesi (onboarding konusmalari icin ideal)</li>
+            </ul>
+            Isterseniz Claude, Gemini veya diger modellere de gecis yapilabilir.
+          </div>
+        </div>
+
+        <div class="faq-category">Satis Ekibi</div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <h3>Satis ekibi sisteme nasil dahil olur?</h3>
+            <span class="faq-icon">V</span>
+          </div>
+          <div class="faq-answer">
+            AI, lead'i belirli bir noktaya kadar "isitiyor", sonra satis temsilcisine devrediyor:
+            <ul>
+              <li><strong>Skor > 70:</strong> "Sicak Lead" - Otomatik olarak satisa yonlenir</li>
+              <li><strong>Skor 40-70:</strong> "Ilik Lead" - Takip listesine alinir</li>
+              <li><strong>Skor < 30:</strong> "Soguk Lead" - Nurturing akisina girer</li>
+            </ul>
+            <br>
+            <strong>Devir sureci:</strong>
+            <ol>
+              <li>AI "Sizi bir temsilcimize baglamak istiyorum" mesaji atar</li>
+              <li>Bitrix'te lead otomatik olarak "Sales Queue"ya tasinir</li>
+              <li>Temsilci, tam konusma gecmisini gorebilir</li>
+              <li>WhatsApp uzerinden devam eder</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <h3>Lead skorlamasinda hangi kriterler kullaniliyor?</h3>
+            <span class="faq-icon">V</span>
+          </div>
+          <div class="faq-answer">
+            AI, her konusmada lead'e 0-100 arasi bir skor verir:
+            <ul>
+              <li><strong>+25 puan:</strong> Niyet netligi (implant, hollywood smile vb. spesifik)</li>
+              <li><strong>+25 puan:</strong> Zaman cercevesi (3 ay icinde gelmek istiyor)</li>
+              <li><strong>+25 puan:</strong> Lokasyon (Avrupa, ABD - yuksek degerli pazarlar)</li>
+              <li><strong>+25 puan:</strong> Aktif katilim (sorular soruyor, detay istiyor)</li>
+            </ul>
+            <br>
+            Skor, her mesajda guncellenir ve Bitrix'e kaydedilir.
+          </div>
+        </div>
+
+        <div class="faq-category">Deployment</div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <h3>Sistemi nereye deploy edebilirim?</h3>
+            <span class="faq-icon">V</span>
+          </div>
+          <div class="faq-answer">
+            Sistem Node.js/Express tabanli oldugu icin su platformlara deploy edilebilir:
+            <ul>
+              <li><strong>Railway.app:</strong> En kolay secenek, GitHub entegrasyonu</li>
+              <li><strong>Render.com:</strong> Ucretsiz tier mevcut</li>
+              <li><strong>Heroku:</strong> Klasik ve guvenilir</li>
+              <li><strong>DigitalOcean App Platform:</strong> Olceklenebilir</li>
+              <li><strong>AWS/GCP/Azure:</strong> Enterprise icin</li>
+            </ul>
+            <br>
+            <strong>Minimum gereksinimler:</strong>
+            <ul>
+              <li>Node.js 18+</li>
+              <li>512MB RAM</li>
+              <li>HTTPS destegi (Meta webhook icin sart)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <h3>Maliyet ne kadar?</h3>
+            <span class="faq-icon">V</span>
+          </div>
+          <div class="faq-answer">
+            <strong>Aylık tahmini maliyet (1000 lead/ay):</strong>
+            <ul>
+              <li><strong>OpenAI API:</strong> ~$20-30 (GPT-4o-mini cok ucuz)</li>
+              <li><strong>Hosting:</strong> ~$5-20 (Railway/Render)</li>
+              <li><strong>WhatsApp API:</strong> Konusma basina ~$0.005-0.08</li>
+              <li><strong>Bitrix24:</strong> Mevcut lisansiniz (ek maliyet yok)</li>
+            </ul>
+            <br>
+            <strong>Toplam:</strong> ~$50-100/ay (1000 lead icin)
+            <br><br>
+            Karsilastirma: Manuel takip icin 1 tam zamanli calisan = ~$2000+/ay
+          </div>
+        </div>
+
+        <div class="faq-category">Demo</div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <h3>Bu demo nasil calisiyor?</h3>
+            <span class="faq-icon">V</span>
+          </div>
+          <div class="faq-answer">
+            Bu sayfa, sistemin tamamen calisir bir simülasyonudur:
+            <ol>
+              <li><strong>Sol panel:</strong> Lead bilgilerini girin (isim, ulke, reklam tipi vb.)</li>
+              <li><strong>"Simulasyonu Baslat":</strong> AI, bu parametrelere gore kisisellestirilmis bir ilk mesaj uretir</li>
+              <li><strong>Sohbet:</strong> Gercek bir hasta gibi yanit yazin, AI cevap verir</li>
+              <li><strong>Metadata:</strong> Her mesajda AI'in tespit ettigi niyet, skor ve asamayi gorebilirsiniz</li>
+            </ol>
+            <br>
+            <strong>Not:</strong> Bu demo backend API'ye baglidir. Canli kullanim icin sistemi deploy etmeniz gerekir.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="panel-left">
+      <!-- HASTA BILGILERI -->
+      <span class="section-label">Hasta Bilgileri</span>
+
+      <div class="input-row">
+        <div>
+          <label>Isim</label>
+          <input type="text" id="name" value="Hans">
+        </div>
+        <div>
+          <label>Telefon</label>
+          <input type="text" id="phone" value="+491234567890">
+        </div>
+      </div>
+
+      <div class="input-row">
+        <div>
+          <label>Ulke</label>
+          <select id="country">
+            <option value="DE">Almanya</option>
+            <option value="UK">Ingiltere</option>
+            <option value="US">ABD</option>
+            <option value="NL">Hollanda</option>
+            <option value="FR">Fransa</option>
+            <option value="TR">Turkiye</option>
+          </select>
+        </div>
+        <div>
+          <label>Tedavi</label>
+          <select id="treatment">
+            <option value="Hollywood Smile">Hollywood Smile</option>
+            <option value="Implant">Implant</option>
+            <option value="Dis Beyazlatma">Beyazlatma</option>
+            <option value="Zirkonyum Kaplama">Zirkonyum</option>
+            <option value="Full Agiz">Full Agiz</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- REKLAM KAYNAGI -->
+      <span class="section-label">Reklam Kaynagi</span>
+
+      <label>Platform</label>
+      <select id="source">
+        <option value="tiktok">TikTok</option>
+        <option value="instagram">Instagram</option>
+        <option value="meta">Facebook</option>
+        <option value="google">Google</option>
+        <option value="youtube">YouTube</option>
+        <option value="web">Website</option>
+      </select>
+
+      <label>Reklam Tipi (Hangi mesajla geldi?)</label>
+      <div class="ad-types">
+        <div class="ad-type-card selected" data-type="price" onclick="selectAdType(this)">
+          <div class="icon">$</div>
+          <div class="title">Fiyat</div>
+          <div class="desc">%70 ucuz</div>
+        </div>
+        <div class="ad-type-card" data-type="aesthetic" onclick="selectAdType(this)">
+          <div class="icon">*</div>
+          <div class="title">Estetik</div>
+          <div class="desc">Hollywood gulusu</div>
+        </div>
+        <div class="ad-type-card" data-type="trust" onclick="selectAdType(this)">
+          <div class="icon">!</div>
+          <div class="title">Guven</div>
+          <div class="desc">JCI akrediteli</div>
+        </div>
+        <div class="ad-type-card" data-type="speed" onclick="selectAdType(this)">
+          <div class="icon">></div>
+          <div class="title">Hiz</div>
+          <div class="desc">1 haftada tamamla</div>
+        </div>
+        <div class="ad-type-card" data-type="pain" onclick="selectAdType(this)">
+          <div class="icon">~</div>
+          <div class="title">Agri/Korku</div>
+          <div class="desc">Agrisiz tedavi</div>
+        </div>
+        <div class="ad-type-card" data-type="social" onclick="selectAdType(this)">
+          <div class="icon">@</div>
+          <div class="title">Sosyal Kanit</div>
+          <div class="desc">5000+ hasta</div>
+        </div>
+      </div>
+
+      <!-- EK BILGILER -->
+      <span class="section-label">Form Bilgileri (Opsiyonel)</span>
+
+      <div class="input-row">
+        <div>
+          <label>Butce</label>
+          <select id="budget">
+            <option value="">Belirtilmedi</option>
+            <option value="low">1.000 - 3.000 EUR</option>
+            <option value="medium">3.000 - 7.000 EUR</option>
+            <option value="high">7.000+ EUR</option>
+          </select>
+        </div>
+        <div>
+          <label>Ne Zaman?</label>
+          <select id="urgency">
+            <option value="">Belirtilmedi</option>
+            <option value="asap">En kisa surede</option>
+            <option value="1month">1 ay icinde</option>
+            <option value="3months">3 ay icinde</option>
+            <option value="later">Sadece arastiriyorum</option>
+          </select>
+        </div>
+      </div>
+
+      <label>Kampanya Adi</label>
+      <input type="text" id="campaign" placeholder="orn: tiktok_jan_hollywood_de">
+
+      <button class="btn btn-primary" onclick="createLead()">Simulasyonu Baslat</button>
+      <button class="btn btn-secondary" onclick="resetChat()">Sifirla</button>
+
+      <div id="leadCard" class="lead-card" style="display:none;">
+        <div class="lead-card-title">Aktif Lead</div>
+        <div class="lead-info" id="leadInfo"></div>
+      </div>
+    </div>
+
+    <div class="panel-right">
+      <div class="chat-header">
+        <div class="chat-avatar">+</div>
+        <div class="chat-info">
+          <h3>Atlantic Dental AI</h3>
+          <span>Antalya, Turkiye</span>
+        </div>
+        <div class="onboarding-indicator" id="onboardingStage">Bekliyor...</div>
+      </div>
+
+      <div class="chat-messages" id="messages">
+        <div class="status-message">
+          <div class="icon">&lt;-</div>
+          <p>Parametreleri ayarlayip simulasyonu baslatin</p>
+        </div>
+      </div>
+
+      <div class="chat-input">
+        <input type="text" id="userInput" placeholder="Mesajinizi yazin..." onkeypress="if(event.key==='Enter')sendMessage()" disabled>
+        <button class="btn btn-primary" onclick="sendMessage()" id="sendBtn" disabled>Gonder</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = window.location.origin;
+    let currentPhone = null;
+    let selectedAdType = 'price';
+
+    // FAQ Functions
+    function openFaq() {
+      document.getElementById('faqModal').classList.add('active');
+    }
+
+    function closeFaq(event) {
+      if (!event || event.target === document.getElementById('faqModal')) {
+        document.getElementById('faqModal').classList.remove('active');
+      }
+    }
+
+    function toggleFaq(el) {
+      const item = el.parentElement;
+      item.classList.toggle('active');
+    }
+
+    // Close modal with ESC key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeFaq();
+    });
+
+    function selectAdType(el) {
+      document.querySelectorAll('.ad-type-card').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+      selectedAdType = el.dataset.type;
+    }
+
+    async function createLead() {
+      const phone = document.getElementById('phone').value.replace(/\D/g, '');
+      const name = document.getElementById('name').value;
+      const source = document.getElementById('source').value;
+      const country = document.getElementById('country').value;
+      const treatment = document.getElementById('treatment').value;
+      const budget = document.getElementById('budget').value;
+      const urgency = document.getElementById('urgency').value;
+      const campaign = document.getElementById('campaign').value;
+
+      if (!phone) {
+        alert('Telefon numarasi gerekli');
+        return;
+      }
+
+      currentPhone = phone;
+      document.getElementById('messages').innerHTML = `
+        <div class="status-message">
+          <div class="loading"></div>
+          <p style="margin-top: 12px;">AI kisisellestirilmis mesaj olusturuyor...</p>
+        </div>
+      `;
+      document.getElementById('onboardingStage').textContent = 'Yukleniyor...';
+
+      try {
+        const res = await fetch(`${API_URL}/test/new-lead`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            phone, name, source, country, treatment,
+            adType: selectedAdType,
+            budget, urgency, campaign
+          })
+        });
+
+        const data = await res.json();
+
+        // Lead card
+        document.getElementById('leadCard').style.display = 'block';
+        document.getElementById('leadInfo').innerHTML = `
+          <span>Isim: ${name}</span>
+          <span>Ulke: ${country}</span>
+          <span>Kaynak: ${source}</span>
+          <span>Reklam: ${getAdTypeName(selectedAdType)}</span>
+          <span>Tedavi: ${treatment}</span>
+          <span>Butce: ${budget || '-'}</span>
+        `;
+
+        // Onboarding stage
+        document.getElementById('onboardingStage').textContent = data.stage || 'Ilk Temas';
+
+        // Messages
+        document.getElementById('messages').innerHTML = '';
+        addMessage(data.firstMessage, 'bot', false, null, data.stage);
+
+        // Quick replies
+        if (data.quickReplies && data.quickReplies.length > 0) {
+          addQuickReplies(data.quickReplies);
+        }
+
+        // Enable input
+        document.getElementById('userInput').disabled = false;
+        document.getElementById('sendBtn').disabled = false;
+        document.getElementById('userInput').focus();
+
+      } catch (err) {
+        document.getElementById('messages').innerHTML = `
+          <div class="status-message">
+            <div class="icon">X</div>
+            <p>Hata: ${err.message}</p>
+          </div>
+        `;
+      }
+    }
+
+    async function sendMessage(quickReply = null) {
+      const input = document.getElementById('userInput');
+      const text = quickReply || input.value.trim();
+
+      if (!text || !currentPhone) return;
+
+      input.value = '';
+
+      // Remove quick replies
+      document.querySelectorAll('.quick-replies').forEach(el => el.remove());
+
+      addMessage(text, 'user');
+
+      const typingId = addMessage('<div class="loading"></div>', 'bot', true);
+
+      try {
+        const res = await fetch(`${API_URL}/test`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ phone: currentPhone, text })
+        });
+
+        const data = await res.json();
+        document.getElementById(typingId)?.remove();
+
+        // Update stage
+        if (data.metadata?.stage) {
+          document.getElementById('onboardingStage').textContent = data.metadata.stage;
+        }
+
+        addMessage(data.reply, 'bot', false, data.metadata);
+
+        // Quick replies
+        if (data.quickReplies && data.quickReplies.length > 0) {
+          addQuickReplies(data.quickReplies);
+        }
+
+      } catch (err) {
+        document.getElementById(typingId)?.remove();
+        addMessage('X Hata: ' + err.message, 'bot');
+      }
+    }
+
+    function addMessage(text, type, isTyping = false, metadata = null, stage = null) {
+      const container = document.getElementById('messages');
+      const id = 'msg-' + Date.now();
+      const time = new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+
+      let metaHtml = '';
+      if (metadata) {
+        // Only show intent if it's not "unknown"
+        const intentBadge = metadata.intent && metadata.intent !== 'unknown'
+          ? `<span class="badge intent">Niyet: ${metadata.intent}</span>`
+          : '';
+
+        metaHtml = `
+          <div class="metadata">
+            ${intentBadge}
+            <span class="badge score">Skor: ${metadata.score}</span>
+            <span class="badge lang">Dil: ${metadata.language?.toUpperCase()}</span>
+            ${metadata.stage ? `<span class="badge stage">Asama: ${metadata.stage}</span>` : ''}
+          </div>
+        `;
+      }
+
+      container.innerHTML += `
+        <div class="message ${type}" id="${id}">
+          ${text}
+          ${metaHtml}
+          <div class="message-time">${time}</div>
+        </div>
+      `;
+
+      container.scrollTop = container.scrollHeight;
+      return id;
+    }
+
+    function addQuickReplies(replies) {
+      const container = document.getElementById('messages');
+      const html = `
+        <div class="quick-replies">
+          ${replies.map(r => `<div class="quick-reply" onclick="sendMessage('${r}')">${r}</div>`).join('')}
+        </div>
+      `;
+      container.innerHTML += html;
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function getAdTypeName(type) {
+      const names = {
+        price: 'Fiyat',
+        aesthetic: 'Estetik',
+        trust: 'Guven',
+        speed: 'Hiz',
+        pain: 'Agri',
+        social: 'Sosyal'
+      };
+      return names[type] || type;
+    }
+
+    function resetChat() {
+      currentPhone = null;
+      document.getElementById('messages').innerHTML = `
+        <div class="status-message">
+          <div class="icon">&lt;-</div>
+          <p>Parametreleri ayarlayip simulasyonu baslatin</p>
+        </div>
+      `;
+      document.getElementById('leadCard').style.display = 'none';
+      document.getElementById('userInput').disabled = true;
+      document.getElementById('sendBtn').disabled = true;
+      document.getElementById('userInput').value = '';
+      document.getElementById('onboardingStage').textContent = 'Bekliyor...';
+    }
+  </script>
+</body>
+</html>
