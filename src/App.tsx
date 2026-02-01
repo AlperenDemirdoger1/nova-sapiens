@@ -1,6 +1,6 @@
 import { motion, AnimatePresence, useScroll, type Variants } from 'framer-motion'
 import { useState, useEffect } from 'react'
-import { useI18n, localizedData, type Language } from './i18n'
+import { useI18n, localizedData } from './i18n'
 
 /* ──────────────────────────── NAV ──────────────────────────── */
 
@@ -78,12 +78,7 @@ interface GitHubCommit {
 
 /* ──────────────────────────── DATA ──────────────────────────── */
 
-const heroStats = [
-  { value: '2.5M+', label: 'Kullanıcı Kazanımı' },
-  { value: '10+', label: 'Yıl Deneyim' },
-  { value: '20+', label: 'Aktif Proje' },
-  { value: '$25M+', label: 'Yönetilen Bütçe' },
-]
+// heroStats moved to i18n.tsx as localizedData
 
 const consultingServices: ConsultingService[] = [
   {
@@ -307,16 +302,7 @@ const projects: Project[] = [
   },
 ]
 
-const growthPortfolio = [
-  { name: 'Bilet Dükkanı', downloads: '670K+', description: 'Etkinlik biletleme platformu', logo: '/logos/biletdukkani.png' },
-  { name: 'Face Yourself', downloads: '540K+', description: 'Kişisel gelişim uygulaması', logo: '/logos/faceyourself.webp' },
-  { name: 'GoArt Worlds', downloads: '455K+', description: 'Web3 gaming metaverse', logo: '/logos/goart.webp' },
-  { name: 'Self Therapy', downloads: '440K+', description: 'Mental sağlık uygulaması', logo: '/logos/selftherapy.webp' },
-  { name: 'Rise Online', downloads: '250K+', description: 'MMORPG oyun lansmanı', logo: '/logos/rise.png' },
-  { name: 'Echoses', downloads: '54K+', description: 'Ses tabanlı sosyal platform', logo: '/logos/echoses.webp' },
-  { name: 'Chakragram', downloads: '47K+', description: 'Human Design uygulaması', logo: '/logos/chakragram.webp' },
-  { name: 'Tanos', downloads: '5.9K+', description: 'Günlük rutin takip uygulaması', logo: '/logos/tanos.webp' },
-]
+// growthPortfolio moved to i18n.tsx as localizedData
 
 
 const careerExperiences: CareerExperience[] = [
@@ -951,13 +937,13 @@ function App() {
                     custom={index}
                   >
                     <div className={`absolute left-2.5 top-6 rounded-full ring-4 ring-night ${isCurrent
-                        ? 'h-4 w-4 bg-gradient-to-r from-cyan-400 to-emerald-400 animate-pulse'
-                        : `h-3 w-3 bg-gradient-to-r ${exp.accent}`
+                      ? 'h-4 w-4 bg-gradient-to-r from-cyan-400 to-emerald-400 animate-pulse'
+                      : `h-3 w-3 bg-gradient-to-r ${exp.accent}`
                       }`} />
 
                     <div className={`relative overflow-hidden rounded-2xl border p-5 backdrop-blur transition-all ${isCurrent
-                        ? 'border-cyan-400/30 bg-white/[0.07] md:p-6'
-                        : 'border-white/10 bg-white/5'
+                      ? 'border-cyan-400/30 bg-white/[0.07] md:p-6'
+                      : 'border-white/10 bg-white/5'
                       }`}>
                       <div className={`absolute inset-0 bg-gradient-to-br ${exp.accent} opacity-10`} />
                       <div className="relative">
@@ -1178,8 +1164,8 @@ function App() {
                 <motion.div
                   key={project.id}
                   className={`relative overflow-hidden rounded-2xl border bg-white/5 p-6 backdrop-blur cursor-pointer group transition-all duration-300 ${selectedProject?.id === project.id
-                      ? 'border-cyan-400/50 bg-white/[0.07]'
-                      : 'border-white/10 hover:border-white/20'
+                    ? 'border-cyan-400/50 bg-white/[0.07]'
+                    : 'border-white/10 hover:border-white/20'
                     }`}
                   whileHover={{ y: -4 }}
                   initial="hidden"
@@ -1194,10 +1180,10 @@ function App() {
                     <div className="flex items-center justify-between mb-3">
                       <h3 className="text-lg font-semibold text-white">{project.name}</h3>
                       <span className={`text-xs px-2 py-1 rounded-full ${project.status === 'active'
-                          ? 'bg-emerald-400/20 text-emerald-300'
-                          : project.status === 'completed'
-                            ? 'bg-blue-400/20 text-blue-300'
-                            : 'bg-slate-400/20 text-slate-300'
+                        ? 'bg-emerald-400/20 text-emerald-300'
+                        : project.status === 'completed'
+                          ? 'bg-blue-400/20 text-blue-300'
+                          : 'bg-slate-400/20 text-slate-300'
                         }`}>
                         {project.status === 'active' ? t('projects.status.active') : project.status === 'completed' ? t('projects.status.completed') : t('projects.status.paused')}
                       </span>
@@ -1315,8 +1301,8 @@ function App() {
                 key={cat.key}
                 onClick={() => setServiceCategory(cat.key)}
                 className={`text-xs px-4 py-2 rounded-full border transition-all ${serviceCategory === cat.key
-                    ? 'border-cyan-400/50 bg-cyan-400/10 text-cyan-300'
-                    : 'border-white/10 bg-white/5 text-slate-400 hover:border-white/20'
+                  ? 'border-cyan-400/50 bg-cyan-400/10 text-cyan-300'
+                  : 'border-white/10 bg-white/5 text-slate-400 hover:border-white/20'
                   }`}
               >
                 {cat.label}
@@ -1395,8 +1381,8 @@ function App() {
               <motion.div
                 key={option.title}
                 className={`rounded-2xl border p-6 text-center backdrop-blur ${option.isPrimary
-                    ? 'border-cyan-400/30 bg-gradient-to-b from-white/[0.07] to-white/[0.03]'
-                    : 'border-white/10 bg-white/5'
+                  ? 'border-cyan-400/30 bg-gradient-to-b from-white/[0.07] to-white/[0.03]'
+                  : 'border-white/10 bg-white/5'
                   }`}
                 initial="hidden"
                 whileInView="visible"
@@ -1413,8 +1399,8 @@ function App() {
                   whileHover={{ y: -2, scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   className={`inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold transition ${option.isPrimary
-                      ? 'bg-gradient-to-r from-emerald-400 via-cyan-300 to-indigo-300 text-slate-900 shadow-glow'
-                      : 'border border-white/20 bg-white/5 text-white hover:border-cyan-400/50'
+                    ? 'bg-gradient-to-r from-emerald-400 via-cyan-300 to-indigo-300 text-slate-900 shadow-glow'
+                    : 'border border-white/20 bg-white/5 text-white hover:border-cyan-400/50'
                     }`}
                 >
                   {option.cta}
