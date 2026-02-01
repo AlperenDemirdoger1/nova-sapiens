@@ -1,0 +1,36 @@
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34D399" />
+      <stop offset="50%" stop-color="#22D3EE" />
+      <stop offset="100%" stop-color="#818CF8" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  
+  <!-- Outer Nova Rays -->
+  <path d="M50 5L55 40L90 35L60 50L95 65L60 65L75 95L50 75L25 95L40 65L5 65L40 50L10 35L45 40L50 5Z" 
+        stroke="url(#logo-gradient)" 
+        stroke-width="1.5" 
+        stroke-linejoin="round" 
+        fill="rgba(52, 211, 153, 0.05)" />
+        
+  <!-- Inner Sapiens/Neural Core -->
+  <circle cx="50" cy="50" r="12" stroke="url(#logo-gradient)" stroke-width="2" fill="none" />
+  <path d="M50 38C50 38 58 42 58 50C58 58 50 62 50 62C50 62 42 58 42 50C42 42 50 38 50 38Z" 
+        fill="url(#logo-gradient)" 
+        opacity="0.8">
+    <animate attributeName="opacity" values="0.4;1;0.4" dur="3s" repeatCount="Indefinity" />
+  </path>
+  
+  <!-- Connecting Lines (Neural Network) -->
+  <line x1="50" y1="50" x2="50" y2="15" stroke="url(#logo-gradient)" stroke-width="0.5" opacity="0.4" />
+  <line x1="50" y1="50" x2="85" y2="35" stroke="url(#logo-gradient)" stroke-width="0.5" opacity="0.4" />
+  <line x1="50" y1="50" x2="85" y2="65" stroke="url(#logo-gradient)" stroke-width="0.5" opacity="0.4" />
+  <line x1="50" y1="50" x2="50" y2="85" stroke="url(#logo-gradient)" stroke-width="0.5" opacity="0.4" />
+  <line x1="50" y1="50" x2="15" y2="65" stroke="url(#logo-gradient)" stroke-width="0.5" opacity="0.4" />
+  <line x1="50" y1="50" x2="15" y2="35" stroke="url(#logo-gradient)" stroke-width="0.5" opacity="0.4" />
+</svg>

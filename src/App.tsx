@@ -1,13 +1,14 @@
 import { motion, AnimatePresence, useScroll, type Variants } from 'framer-motion'
 import { useState, useEffect } from 'react'
+import { useI18n, localizedData, type Language } from './i18n'
 
 /* ──────────────────────────── NAV ──────────────────────────── */
 
-const navLinks = [
-  { label: 'Ne Yapabilirim', href: '#hizmetler' },
-  { label: 'Projeler', href: '#projeler' },
-  { label: 'CV', href: '#cv' },
-  { label: 'İletişim', href: '#iletisim' },
+const getNavLinks = (t: (key: string) => string) => [
+  { label: t('nav.services'), href: '#hizmetler' },
+  { label: t('nav.projects'), href: '#projeler' },
+  { label: t('nav.cv'), href: '#cv' },
+  { label: t('nav.contact'), href: '#iletisim' },
 ]
 
 /* ──────────────────────────── TYPES ──────────────────────────── */
@@ -563,13 +564,17 @@ function SectionDivider() {
 /* ──────────────────────────── APP ──────────────────────────── */
 
 function App() {
+  const { lang, setLang, t } = useI18n()
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
-    const [expandedExp, setExpandedExp] = useState<string | null>(null)
+  const [expandedExp, setExpandedExp] = useState<string | null>(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('')
   const [githubCommits, setGithubCommits] = useState<GitHubCommit[]>([])
   const [serviceCategory, setServiceCategory] = useState<ServiceCategory>('all')
-    const { scrollYProgress } = useScroll()
+  const { scrollYProgress } = useScroll()
+
+  const navLinks = getNavLinks(t)
+  const currentData = localizedData[lang]
 
   // GitHub activity fetch
   useEffect(() => {
@@ -591,7 +596,7 @@ function App() {
         }
         setGithubCommits(commits.slice(0, 15))
       })
-      .catch(() => {})
+      .catch(() => { })
   }, [])
 
   // Active section tracking
@@ -657,12 +662,11 @@ function App() {
           <nav className="hidden items-center gap-8 text-sm text-slate-300 md:flex">
             {navLinks.map((item) => (
               <motion.a
-                key={item.label}
+                key={item.href}
                 href={item.href}
                 whileHover={{ y: -2 }}
-                className={`relative transition-colors ${
-                  activeSection === item.href.slice(1) ? 'text-cyan-300' : 'hover:text-white'
-                }`}
+                className={`relative transition-colors ${activeSection === item.href.slice(1) ? 'text-cyan-300' : 'hover:text-white'
+                  }`}
               >
                 {item.label}
                 {activeSection === item.href.slice(1) && (
@@ -673,6 +677,15 @@ function App() {
                 )}
               </motion.a>
             ))}
+            {/* Language Switcher */}
+            <button
+              onClick={() => setLang(lang === 'tr' ? 'en' : 'tr')}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 hover:border-cyan-400/30 transition-all text-xs font-medium"
+            >
+              <span className={lang === 'tr' ? 'text-cyan-300' : 'text-slate-400'}>TR</span>
+              <span className="text-slate-500">/</span>
+              <span className={lang === 'en' ? 'text-cyan-300' : 'text-slate-400'}>EN</span>
+            </button>
           </nav>
 
           {/* Mobile hamburger */}
@@ -700,16 +713,24 @@ function App() {
               <div className="px-6 py-4 space-y-3">
                 {navLinks.map((item) => (
                   <a
-                    key={item.label}
+                    key={item.href}
                     href={item.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`block text-sm py-2 ${
-                      activeSection === item.href.slice(1) ? 'text-cyan-300' : 'text-slate-300'
-                    }`}
+                    className={`block text-sm py-2 ${activeSection === item.href.slice(1) ? 'text-cyan-300' : 'text-slate-300'
+                      }`}
                   >
                     {item.label}
                   </a>
                 ))}
+                {/* Language Switcher Mobile */}
+                <button
+                  onClick={() => setLang(lang === 'tr' ? 'en' : 'tr')}
+                  className="flex items-center gap-2 py-2 text-sm"
+                >
+                  <span className={lang === 'tr' ? 'text-cyan-300' : 'text-slate-400'}>TR</span>
+                  <span className="text-slate-500">/</span>
+                  <span className={lang === 'en' ? 'text-cyan-300' : 'text-slate-400'}>EN</span>
+                </button>
               </div>
             </motion.nav>
           )}
@@ -726,20 +747,19 @@ function App() {
             variants={fadeIn}
           >
             <span className="flex h-2 w-2 rounded-full bg-gradient-to-r from-emerald-400 to-cyan-300 shadow-glow animate-pulse" />
-            Build in public. Her gün bir adım.
+            {t('github.title')}. {lang === 'tr' ? 'Her gün bir adım.' : 'One step at a time.'}
           </motion.div>
 
           <motion.div className="space-y-5 mb-10" initial="hidden" animate="visible" variants={fadeIn} custom={1}>
             <h1 className="font-display text-4xl leading-tight text-white sm:text-5xl lg:text-6xl">
-              Gündüz büyütüyorum.
+              {t('hero.title.day')}
               <br className="hidden sm:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 via-cyan-200 to-indigo-200">
-                Gece build ediyorum.
+                {t('hero.title.night')}
               </span>
             </h1>
             <p className="max-w-2xl text-lg text-slate-300 sm:text-xl leading-relaxed">
-              Ben Alperen. Red Bull'dan Coca-Cola'ya, Web3 gaming'den Bakanlığa. 10+ yıldır
-              gürültüde farkedilen kampanyalar kuruyorum. Gece de AI ile kendi ürünlerimi build ediyorum.
+              {t('hero.subtitle')}
             </p>
           </motion.div>
 
@@ -751,7 +771,7 @@ function App() {
               whileTap={{ scale: 0.98 }}
               className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-400 via-cyan-300 to-indigo-300 px-7 py-3.5 text-sm font-semibold text-slate-900 shadow-glow transition"
             >
-              Hadi konuşalım
+              {t('services.cta.button')}
               <span>&rarr;</span>
             </motion.a>
             <motion.a
@@ -760,7 +780,7 @@ function App() {
               whileTap={{ scale: 0.98 }}
               className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur transition hover:border-cyan-400/50"
             >
-              Projelere bak
+              {t('hero.cta.projects')}
             </motion.a>
           </motion.div>
 
@@ -772,12 +792,12 @@ function App() {
             variants={fadeIn}
             custom={3}
           >
-            {heroStats.map((stat) => (
-              <div key={stat.label} className="text-center sm:text-left">
+            {currentData.heroStats.map((stat) => (
+              <div key={stat.labelKey} className="text-center sm:text-left">
                 <p className="text-3xl font-bold font-display text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-300">
                   {stat.value}
                 </p>
-                <p className="text-xs text-slate-400 mt-1">{stat.label}</p>
+                <p className="text-xs text-slate-400 mt-1">{t(stat.labelKey)}</p>
               </div>
             ))}
           </motion.div>
@@ -847,6 +867,255 @@ function App() {
 
         <SectionDivider />
 
+        {/* ─────────── CV Section ─────────── */}
+        <section id="cv" className="mb-8">
+          <motion.div
+            className="mb-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-80px' }}
+            variants={fadeIn}
+          >
+            <span className="text-xs font-semibold uppercase tracking-widest text-violet-400 mb-3 block">{t('cv.badge')}</span>
+            <h2 className="text-3xl font-display font-semibold text-white mb-2">{t('cv.title')}</h2>
+            <p className="text-slate-400 max-w-2xl">
+              {t('cv.subtitle')}
+            </p>
+          </motion.div>
+
+          {/* Quick stats bar */}
+          <motion.div
+            className="flex flex-wrap gap-4 mb-10"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeIn}
+          >
+            {[
+              { value: t('cv.stat.years'), color: 'text-cyan-300' },
+              { value: t('cv.stat.companies'), color: 'text-emerald-300' },
+              { value: t('cv.stat.startup'), color: 'text-amber-300' },
+              { value: t('cv.stat.education'), color: 'text-indigo-300' },
+            ].map((stat) => (
+              <span key={stat.value} className={`text-xs px-3 py-1.5 rounded-full border border-white/10 bg-white/5 ${stat.color}`}>
+                {stat.value}
+              </span>
+            ))}
+          </motion.div>
+
+          {/* Growth Portfolio - 2.5M+ Downloads */}
+          <motion.div
+            className="mb-12"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeIn}
+          >
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-lg font-semibold text-white">{t('cv.portfolio.title')}</h3>
+              <span className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-emerald-300">{t('cv.portfolio.total')}</span>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {currentData.growthPortfolio.map((project) => (
+                <div key={project.name} className="rounded-xl border border-white/10 bg-white/5 p-4 backdrop-blur hover:border-cyan-400/30 transition-colors">
+                  <div className="flex items-center gap-3 mb-2">
+                    <img src={project.logo} alt={project.name} className="h-10 w-10 shrink-0 rounded-xl object-contain" />
+                    <div>
+                      <h4 className="text-white font-medium text-sm">{project.name}</h4>
+                      <p className="text-xs text-cyan-300 font-semibold">{project.downloads}</p>
+                    </div>
+                  </div>
+                  <p className="text-xs text-slate-400">{project.description}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Career timeline */}
+          <div className="relative mb-12">
+            <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gradient-to-b from-cyan-400/50 via-indigo-400/30 to-transparent" />
+
+            <div className="space-y-5">
+              {careerExperiences.map((exp, index) => {
+                const isCurrent = index === 0
+                const isExpanded = expandedExp === exp.company
+
+                return (
+                  <motion.div
+                    key={exp.company}
+                    className="relative pl-12"
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: '-40px' }}
+                    variants={fadeIn}
+                    custom={index}
+                  >
+                    <div className={`absolute left-2.5 top-6 rounded-full ring-4 ring-night ${isCurrent
+                        ? 'h-4 w-4 bg-gradient-to-r from-cyan-400 to-emerald-400 animate-pulse'
+                        : `h-3 w-3 bg-gradient-to-r ${exp.accent}`
+                      }`} />
+
+                    <div className={`relative overflow-hidden rounded-2xl border p-5 backdrop-blur transition-all ${isCurrent
+                        ? 'border-cyan-400/30 bg-white/[0.07] md:p-6'
+                        : 'border-white/10 bg-white/5'
+                      }`}>
+                      <div className={`absolute inset-0 bg-gradient-to-br ${exp.accent} opacity-10`} />
+                      <div className="relative">
+                        <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-2">
+                          <div>
+                            {isCurrent && (
+                              <span className="inline-flex text-xs px-3 py-1 rounded-full bg-cyan-400/15 text-cyan-300 font-medium mb-2">
+                                {t('cv.current')}
+                              </span>
+                            )}
+                            <div className="flex items-center gap-2 mb-0.5">
+                              <h3 className={`font-semibold text-white ${isCurrent ? 'text-lg' : 'text-base'}`}>{exp.company}</h3>
+                              {exp.type === 'entrepreneurship' && (
+                                <span className="text-xs px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-300">{t('cv.badge.startup')}</span>
+                              )}
+                              {exp.type === 'internship' && (
+                                <span className="text-xs px-2 py-0.5 rounded-full bg-slate-400/20 text-slate-300">{t('cv.badge.internship')}</span>
+                              )}
+                            </div>
+                            <p className="text-sm text-cyan-300">{exp.role}</p>
+                          </div>
+                          <div className="flex items-center gap-2 mt-1.5 md:mt-0 text-xs text-slate-400">
+                            <span>{exp.period}</span>
+                            <span className="hidden md:inline">&middot;</span>
+                            <span className="hidden md:inline">{exp.location}</span>
+                          </div>
+                        </div>
+
+                        {/* Key Metrics, Projects, Tools - always visible */}
+                        {(exp.keyMetrics || exp.keyProjects || exp.tools) && (
+                          <div className="grid gap-4 mt-3 sm:grid-cols-3">
+                            {exp.keyMetrics && exp.keyMetrics.length > 0 && (
+                              <div>
+                                <p className="text-xs text-cyan-400 font-medium mb-2">{t('cv.keyMetrics')}</p>
+                                <div className="flex flex-wrap gap-1.5">
+                                  {exp.keyMetrics.map((metric) => (
+                                    <span key={metric} className="text-xs px-2 py-1 rounded-full bg-cyan-400/10 text-cyan-300 border border-cyan-400/20">{metric}</span>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                            {exp.keyProjects && exp.keyProjects.length > 0 && (
+                              <div>
+                                <p className="text-xs text-emerald-400 font-medium mb-2">{t('cv.keyProjects')}</p>
+                                <div className="flex flex-wrap gap-1.5">
+                                  {exp.keyProjects.map((project) => (
+                                    <span key={project} className="text-xs px-2 py-1 rounded-full bg-emerald-400/10 text-emerald-300 border border-emerald-400/20">{project}</span>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                            {exp.tools && exp.tools.length > 0 && (
+                              <div>
+                                <p className="text-xs text-violet-400 font-medium mb-2">{t('cv.tools')}</p>
+                                <div className="flex flex-wrap gap-1.5">
+                                  {exp.tools.map((tool) => (
+                                    <span key={tool} className="text-xs px-2 py-1 rounded-full bg-violet-400/10 text-violet-300 border border-violet-400/20">{tool}</span>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        )}
+
+                        {/* Expandable highlights - detailed text */}
+                        <AnimatePresence>
+                          {isExpanded && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: 'auto', opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.25 }}
+                              className="overflow-hidden"
+                            >
+                              <ul className="space-y-1.5 mt-4 pt-4 border-t border-white/10">
+                                {exp.highlights.map((highlight, i) => (
+                                  <li key={i} className="flex gap-2 text-sm text-slate-300">
+                                    <span className="text-cyan-400/60 mt-1 shrink-0">&#9656;</span>
+                                    <span>{highlight}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+
+                        {exp.highlights.length > 0 && (
+                          <button
+                            onClick={() => setExpandedExp(isExpanded ? null : exp.company)}
+                            className="text-xs text-cyan-400 mt-3 hover:text-cyan-300 transition-colors flex items-center gap-1"
+                          >
+                            {isExpanded ? t('cv.collapse') : t('cv.expand')}
+                          </button>
+                        )}
+
+                      </div>
+                    </div>
+                  </motion.div>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Education + Skills */}
+          <div className="grid gap-6 lg:grid-cols-5">
+            <motion.div
+              className="lg:col-span-2"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeIn}
+              custom={1}
+            >
+              <h3 className="text-base font-semibold text-white mb-3">{t('cv.education')}</h3>
+              <div className="space-y-3">
+                {education.map((edu) => (
+                  <div key={edu.school} className="rounded-xl border border-white/10 bg-white/5 p-4 backdrop-blur">
+                    <h4 className="text-white font-medium text-sm">{edu.school}</h4>
+                    <p className="text-xs text-cyan-300">{edu.degree}, {edu.field}</p>
+                    <p className="text-xs text-slate-400 mt-1">{edu.period}</p>
+                    <p className="text-xs text-slate-400 mt-1.5">{edu.note}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            <motion.div
+              className="lg:col-span-3"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeIn}
+              custom={2}
+            >
+              <h3 className="text-base font-semibold text-white mb-3">{t('cv.skills')}</h3>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {skillCategories.map((category) => (
+                  <div key={category.title} className="rounded-xl border border-white/10 bg-white/5 p-3 backdrop-blur">
+                    <h4 className="text-xs font-medium text-cyan-300 mb-2">{category.title}</h4>
+                    <div className="flex flex-wrap gap-1">
+                      {category.skills.map((skill) => (
+                        <span
+                          key={skill}
+                          className="text-xs px-2 py-0.5 rounded-full bg-white/10 text-slate-200"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        <SectionDivider />
+
         {/* ─────────── Projects Section ─────────── */}
         <section id="projeler" className="mb-8">
           <motion.div
@@ -856,20 +1125,18 @@ function App() {
             viewport={{ once: true, margin: '-80px' }}
             variants={fadeIn}
           >
-            <span className="text-xs font-semibold uppercase tracking-widest text-emerald-400 mb-3 block">Kişisel Projeler</span>
-            <h2 className="text-3xl font-display font-semibold text-white mb-2">Kendim için ne build ediyorum?</h2>
+            <span className="text-xs font-semibold uppercase tracking-widest text-emerald-400 mb-3 block">{t('projects.badge')}</span>
+            <h2 className="text-3xl font-display font-semibold text-white mb-2">{t('projects.title')}</h2>
             <p className="text-slate-400 max-w-2xl">
-              Gece kendi projelerimi ship ediyorum.
-              Her biri gerçek bir problemi çözmek için var.
+              {t('projects.subtitle')}
             </p>
           </motion.div>
 
           {/* Featured project - Dopa.Live */}
           {(
             <motion.div
-              className={`relative overflow-hidden rounded-2xl border p-8 backdrop-blur mb-6 cursor-pointer group transition-all duration-300 ${
-                selectedProject?.id === 'dopa-live' ? 'border-cyan-400/50 bg-white/[0.07]' : 'border-white/10 bg-white/5 hover:border-white/20'
-              }`}
+              className={`relative overflow-hidden rounded-2xl border p-8 backdrop-blur mb-6 cursor-pointer group transition-all duration-300 ${selectedProject?.id === 'dopa-live' ? 'border-cyan-400/50 bg-white/[0.07]' : 'border-white/10 bg-white/5 hover:border-white/20'
+                }`}
               whileHover={{ y: -4 }}
               onClick={() => setSelectedProject(selectedProject?.id === 'dopa-live' ? null : projects[0])}
               initial="hidden"
@@ -882,22 +1149,22 @@ function App() {
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-3">
                     <span className="text-xs px-3 py-1 rounded-full bg-emerald-400/20 text-emerald-300 font-medium">
-                      &#9733; Main quest
+                      {t('projects.featured')}
                     </span>
-                    <span className="text-xs px-2 py-1 rounded-full bg-emerald-400/20 text-emerald-300">Aktif</span>
+                    <span className="text-xs px-2 py-1 rounded-full bg-emerald-400/20 text-emerald-300">{t('projects.status.active')}</span>
                   </div>
                   <h3 className="text-2xl font-display font-semibold text-white mb-2">{projects[0].name}</h3>
                   <p className="text-slate-300 mb-4">{projects[0].description}</p>
                   <div className="flex flex-wrap gap-2">
-                    {projects[0].tech.map((t) => (
-                      <span key={t} className="text-xs px-2.5 py-1 rounded-full bg-white/10 text-slate-200">{t}</span>
+                    {projects[0].tech.map((tech) => (
+                      <span key={tech} className="text-xs px-2.5 py-1 rounded-full bg-white/10 text-slate-200">{tech}</span>
                     ))}
                   </div>
                 </div>
                 <div className="text-right shrink-0">
                   <p className="text-3xl font-bold font-display text-white">{projects[0].timeline.length}</p>
-                  <p className="text-xs text-slate-400">güncelleme</p>
-                  <p className="text-xs text-cyan-300 mt-2">Timeline'ı gör &rarr;</p>
+                  <p className="text-xs text-slate-400">{t('projects.updates')}</p>
+                  <p className="text-xs text-cyan-300 mt-2">{t('projects.viewTimeline')}</p>
                 </div>
               </div>
             </motion.div>
@@ -907,14 +1174,13 @@ function App() {
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {projects
               .slice(1)
-                            .map((project, index) => (
+              .map((project, index) => (
                 <motion.div
                   key={project.id}
-                  className={`relative overflow-hidden rounded-2xl border bg-white/5 p-6 backdrop-blur cursor-pointer group transition-all duration-300 ${
-                    selectedProject?.id === project.id
+                  className={`relative overflow-hidden rounded-2xl border bg-white/5 p-6 backdrop-blur cursor-pointer group transition-all duration-300 ${selectedProject?.id === project.id
                       ? 'border-cyan-400/50 bg-white/[0.07]'
                       : 'border-white/10 hover:border-white/20'
-                  }`}
+                    }`}
                   whileHover={{ y: -4 }}
                   initial="hidden"
                   whileInView="visible"
@@ -927,14 +1193,13 @@ function App() {
                   <div className="relative">
                     <div className="flex items-center justify-between mb-3">
                       <h3 className="text-lg font-semibold text-white">{project.name}</h3>
-                      <span className={`text-xs px-2 py-1 rounded-full ${
-                        project.status === 'active'
+                      <span className={`text-xs px-2 py-1 rounded-full ${project.status === 'active'
                           ? 'bg-emerald-400/20 text-emerald-300'
                           : project.status === 'completed'
-                          ? 'bg-blue-400/20 text-blue-300'
-                          : 'bg-slate-400/20 text-slate-300'
-                      }`}>
-                        {project.status === 'active' ? 'Aktif' : project.status === 'completed' ? 'Tamamlandı' : 'Beklemede'}
+                            ? 'bg-blue-400/20 text-blue-300'
+                            : 'bg-slate-400/20 text-slate-300'
+                        }`}>
+                        {project.status === 'active' ? t('projects.status.active') : project.status === 'completed' ? t('projects.status.completed') : t('projects.status.paused')}
                       </span>
                     </div>
                     <p className="text-sm text-slate-300 mb-4">{project.description}</p>
@@ -944,7 +1209,7 @@ function App() {
                       ))}
                     </div>
                     <div className="flex items-center justify-between text-xs text-slate-400">
-                      <span>{project.timeline.length} güncelleme</span>
+                      <span>{project.timeline.length} {t('projects.updates')}</span>
                       <div className="flex items-center gap-3">
                         {project.url && (
                           <a
@@ -954,10 +1219,10 @@ function App() {
                             onClick={(e) => e.stopPropagation()}
                             className="text-emerald-300 hover:text-emerald-200 transition"
                           >
-                            Canlı &rarr;
+                            {t('projects.live')}
                           </a>
                         )}
-                        <span className="text-cyan-300">Timeline &rarr;</span>
+                        <span className="text-cyan-300">{t('projects.timeline')}</span>
                       </div>
                     </div>
                   </div>
@@ -1022,258 +1287,6 @@ function App() {
 
         <SectionDivider />
 
-        {/* ─────────── CV Section ─────────── */}
-        <section id="cv" className="mb-8">
-          <motion.div
-            className="mb-8"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-80px' }}
-            variants={fadeIn}
-          >
-            <span className="text-xs font-semibold uppercase tracking-widest text-violet-400 mb-3 block">CV</span>
-            <h2 className="text-3xl font-display font-semibold text-white mb-2">Nereden geliyorum?</h2>
-            <p className="text-slate-400 max-w-2xl">
-              FMCG'den blockchain'e, sahadan AI'ya. Hep aynı şeyi yaptım: insanların dikkatini kazanıp tutmak.
-              Araçlar değişti, oyun aynı.
-            </p>
-          </motion.div>
-
-          {/* Quick stats bar */}
-          <motion.div
-            className="flex flex-wrap gap-4 mb-10"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeIn}
-          >
-            {[
-              { value: '10+ yıl', color: 'text-cyan-300' },
-              { value: '7 şirket', color: 'text-emerald-300' },
-              { value: '1 girişim', color: 'text-amber-300' },
-              { value: 'ITU MSc + Boğaziçi BA', color: 'text-indigo-300' },
-            ].map((stat) => (
-              <span key={stat.value} className={`text-xs px-3 py-1.5 rounded-full border border-white/10 bg-white/5 ${stat.color}`}>
-                {stat.value}
-              </span>
-            ))}
-          </motion.div>
-
-          {/* Growth Portfolio - 2.5M+ Downloads */}
-          <motion.div
-            className="mb-12"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeIn}
-          >
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-semibold text-white">Büyüttüğüm Ürünler</h3>
-              <span className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-emerald-300">2.5M+ indirme</span>
-            </div>
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              {growthPortfolio.map((project) => (
-                <div key={project.name} className="rounded-xl border border-white/10 bg-white/5 p-4 backdrop-blur hover:border-cyan-400/30 transition-colors">
-                  <div className="flex items-center gap-3 mb-2">
-                    <img src={project.logo} alt={project.name} className="h-10 w-10 shrink-0 rounded-xl object-contain" />
-                    <div>
-                      <h4 className="text-white font-medium text-sm">{project.name}</h4>
-                      <p className="text-xs text-cyan-300 font-semibold">{project.downloads}</p>
-                    </div>
-                  </div>
-                  <p className="text-xs text-slate-400">{project.description}</p>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Career timeline */}
-          <div className="relative mb-12">
-            <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gradient-to-b from-cyan-400/50 via-indigo-400/30 to-transparent" />
-
-            <div className="space-y-5">
-              {careerExperiences.map((exp, index) => {
-                const isCurrent = index === 0
-                const isExpanded = expandedExp === exp.company
-
-                return (
-                  <motion.div
-                    key={exp.company}
-                    className="relative pl-12"
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, margin: '-40px' }}
-                    variants={fadeIn}
-                    custom={index}
-                  >
-                    <div className={`absolute left-2.5 top-6 rounded-full ring-4 ring-night ${
-                      isCurrent
-                        ? 'h-4 w-4 bg-gradient-to-r from-cyan-400 to-emerald-400 animate-pulse'
-                        : `h-3 w-3 bg-gradient-to-r ${exp.accent}`
-                    }`} />
-
-                    <div className={`relative overflow-hidden rounded-2xl border p-5 backdrop-blur transition-all ${
-                      isCurrent
-                        ? 'border-cyan-400/30 bg-white/[0.07] md:p-6'
-                        : 'border-white/10 bg-white/5'
-                    }`}>
-                      <div className={`absolute inset-0 bg-gradient-to-br ${exp.accent} opacity-10`} />
-                      <div className="relative">
-                        <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-2">
-                          <div>
-                            {isCurrent && (
-                              <span className="inline-flex text-xs px-3 py-1 rounded-full bg-cyan-400/15 text-cyan-300 font-medium mb-2">
-                                Şu an buradayım
-                              </span>
-                            )}
-                            <div className="flex items-center gap-2 mb-0.5">
-                              <h3 className={`font-semibold text-white ${isCurrent ? 'text-lg' : 'text-base'}`}>{exp.company}</h3>
-                              {exp.type === 'entrepreneurship' && (
-                                <span className="text-xs px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-300">Girişim</span>
-                              )}
-                              {exp.type === 'internship' && (
-                                <span className="text-xs px-2 py-0.5 rounded-full bg-slate-400/20 text-slate-300">Staj</span>
-                              )}
-                            </div>
-                            <p className="text-sm text-cyan-300">{exp.role}</p>
-                          </div>
-                          <div className="flex items-center gap-2 mt-1.5 md:mt-0 text-xs text-slate-400">
-                            <span>{exp.period}</span>
-                            <span className="hidden md:inline">&middot;</span>
-                            <span className="hidden md:inline">{exp.location}</span>
-                          </div>
-                        </div>
-
-                        {/* Key Metrics, Projects, Tools - always visible */}
-                        {(exp.keyMetrics || exp.keyProjects || exp.tools) && (
-                          <div className="grid gap-4 mt-3 sm:grid-cols-3">
-                            {exp.keyMetrics && exp.keyMetrics.length > 0 && (
-                              <div>
-                                <p className="text-xs text-cyan-400 font-medium mb-2">Key Metrics</p>
-                                <div className="flex flex-wrap gap-1.5">
-                                  {exp.keyMetrics.map((metric) => (
-                                    <span key={metric} className="text-xs px-2 py-1 rounded-full bg-cyan-400/10 text-cyan-300 border border-cyan-400/20">{metric}</span>
-                                  ))}
-                                </div>
-                              </div>
-                            )}
-                            {exp.keyProjects && exp.keyProjects.length > 0 && (
-                              <div>
-                                <p className="text-xs text-emerald-400 font-medium mb-2">Key Projects</p>
-                                <div className="flex flex-wrap gap-1.5">
-                                  {exp.keyProjects.map((project) => (
-                                    <span key={project} className="text-xs px-2 py-1 rounded-full bg-emerald-400/10 text-emerald-300 border border-emerald-400/20">{project}</span>
-                                  ))}
-                                </div>
-                              </div>
-                            )}
-                            {exp.tools && exp.tools.length > 0 && (
-                              <div>
-                                <p className="text-xs text-violet-400 font-medium mb-2">Tools</p>
-                                <div className="flex flex-wrap gap-1.5">
-                                  {exp.tools.map((tool) => (
-                                    <span key={tool} className="text-xs px-2 py-1 rounded-full bg-violet-400/10 text-violet-300 border border-violet-400/20">{tool}</span>
-                                  ))}
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        )}
-
-                        {/* Expandable highlights - detailed text */}
-                        <AnimatePresence>
-                          {isExpanded && (
-                            <motion.div
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: 'auto', opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              transition={{ duration: 0.25 }}
-                              className="overflow-hidden"
-                            >
-                              <ul className="space-y-1.5 mt-4 pt-4 border-t border-white/10">
-                                {exp.highlights.map((highlight, i) => (
-                                  <li key={i} className="flex gap-2 text-sm text-slate-300">
-                                    <span className="text-cyan-400/60 mt-1 shrink-0">&#9656;</span>
-                                    <span>{highlight}</span>
-                                  </li>
-                                ))}
-                              </ul>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-
-                        {exp.highlights.length > 0 && (
-                          <button
-                            onClick={() => setExpandedExp(isExpanded ? null : exp.company)}
-                            className="text-xs text-cyan-400 mt-3 hover:text-cyan-300 transition-colors flex items-center gap-1"
-                          >
-                            {isExpanded ? 'Detayları gizle ▲' : 'Detayları gör ▼'}
-                          </button>
-                        )}
-
-                      </div>
-                    </div>
-                  </motion.div>
-                )
-              })}
-            </div>
-          </div>
-
-          {/* Education + Skills */}
-          <div className="grid gap-6 lg:grid-cols-5">
-            <motion.div
-              className="lg:col-span-2"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeIn}
-              custom={1}
-            >
-              <h3 className="text-base font-semibold text-white mb-3">Eğitim</h3>
-              <div className="space-y-3">
-                {education.map((edu) => (
-                  <div key={edu.school} className="rounded-xl border border-white/10 bg-white/5 p-4 backdrop-blur">
-                    <h4 className="text-white font-medium text-sm">{edu.school}</h4>
-                    <p className="text-xs text-cyan-300">{edu.degree}, {edu.field}</p>
-                    <p className="text-xs text-slate-400 mt-1">{edu.period}</p>
-                    <p className="text-xs text-slate-400 mt-1.5">{edu.note}</p>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-
-            <motion.div
-              className="lg:col-span-3"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeIn}
-              custom={2}
-            >
-              <h3 className="text-base font-semibold text-white mb-3">Yetenekler</h3>
-              <div className="grid gap-3 sm:grid-cols-2">
-                {skillCategories.map((category) => (
-                  <div key={category.title} className="rounded-xl border border-white/10 bg-white/5 p-3 backdrop-blur">
-                    <h4 className="text-xs font-medium text-cyan-300 mb-2">{category.title}</h4>
-                    <div className="flex flex-wrap gap-1">
-                      {category.skills.map((skill) => (
-                        <span
-                          key={skill}
-                          className="text-xs px-2 py-0.5 rounded-full bg-white/10 text-slate-200"
-                        >
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-        </section>
-
-        <SectionDivider />
-
         {/* ─────────── Services Section ─────────── */}
         <section id="hizmetler" className="mb-8">
           <motion.div
@@ -1301,11 +1314,10 @@ function App() {
               <button
                 key={cat.key}
                 onClick={() => setServiceCategory(cat.key)}
-                className={`text-xs px-4 py-2 rounded-full border transition-all ${
-                  serviceCategory === cat.key
+                className={`text-xs px-4 py-2 rounded-full border transition-all ${serviceCategory === cat.key
                     ? 'border-cyan-400/50 bg-cyan-400/10 text-cyan-300'
                     : 'border-white/10 bg-white/5 text-slate-400 hover:border-white/20'
-                }`}
+                  }`}
               >
                 {cat.label}
               </button>
@@ -1382,11 +1394,10 @@ function App() {
             {contactOptions.map((option, index) => (
               <motion.div
                 key={option.title}
-                className={`rounded-2xl border p-6 text-center backdrop-blur ${
-                  option.isPrimary
+                className={`rounded-2xl border p-6 text-center backdrop-blur ${option.isPrimary
                     ? 'border-cyan-400/30 bg-gradient-to-b from-white/[0.07] to-white/[0.03]'
                     : 'border-white/10 bg-white/5'
-                }`}
+                  }`}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
@@ -1401,11 +1412,10 @@ function App() {
                   rel={option.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                   whileHover={{ y: -2, scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className={`inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold transition ${
-                    option.isPrimary
+                  className={`inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold transition ${option.isPrimary
                       ? 'bg-gradient-to-r from-emerald-400 via-cyan-300 to-indigo-300 text-slate-900 shadow-glow'
                       : 'border border-white/20 bg-white/5 text-white hover:border-cyan-400/50'
-                  }`}
+                    }`}
                 >
                   {option.cta}
                 </motion.a>
