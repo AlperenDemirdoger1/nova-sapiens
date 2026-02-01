@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 /* ──────────────────────────── NAV ──────────────────────────── */
 
 const navLinks = [
-  { label: 'Hizmetler', href: '#hizmetler' },
+  { label: 'Ne Yapabilirim', href: '#hizmetler' },
   { label: 'Projeler', href: '#projeler' },
   { label: 'CV', href: '#cv' },
   { label: 'İletişim', href: '#iletisim' },
@@ -54,7 +54,10 @@ interface CareerExperience {
   location: string
   highlights: string[]
   accent: string
-  type: 'corporate' | 'entrepreneurship'
+  type: 'corporate' | 'entrepreneurship' | 'internship'
+  keyMetrics?: string[]
+  keyProjects?: string[]
+  tools?: string[]
 }
 
 interface Education {
@@ -75,10 +78,10 @@ interface GitHubCommit {
 /* ──────────────────────────── DATA ──────────────────────────── */
 
 const heroStats = [
-  { value: '300K+', label: 'Kullanıcı Kazanımı' },
-  { value: '8+', label: 'Yıl Deneyim' },
-  { value: '5', label: 'Aktif AI Projesi' },
-  { value: '$M+', label: 'Yönetilen Bütçe' },
+  { value: '2.5M+', label: 'Kullanıcı Kazanımı' },
+  { value: '10+', label: 'Yıl Deneyim' },
+  { value: '20+', label: 'Aktif Proje' },
+  { value: '$25M+', label: 'Yönetilen Bütçe' },
 ]
 
 const consultingServices: ConsultingService[] = [
@@ -98,11 +101,11 @@ const consultingServices: ConsultingService[] = [
     icon: 'UA',
     category: 'strategy',
     title: 'Growth & Kullanıcı Kazanımı',
-    description: '300K kullanıcıyı nasıl kazandığımı biliyorum. UA, retention, lifecycle otomasyon, performans marketing. Somut rakamlarla konuşuyorum.',
+    description: '2.5M kullanıcıyı nasıl kazandığımı biliyorum. UA, retention, lifecycle otomasyon, performans marketing. Somut rakamlarla konuşuyorum.',
     deliverables: ['Kanal stratejisi & bütçe planı', 'Kampanya kurulumu & optimizasyon', 'CRM & retention otomasyonu'],
     tools: [
       { name: 'Channel Mix Planner', description: 'Bütçene ve hedefine göre en verimli kanal dağılımını hesaplayan araç', status: 'live' },
-      { name: 'UA Playbook', description: '300K kullanıcı kazanırken kullandığım adım adım büyüme rehberi', status: 'live' },
+      { name: 'UA Playbook', description: '2.5M kullanıcı kazanırken kullandığım adım adım büyüme rehberi', status: 'live' },
       { name: 'Retention Scorecard', description: 'Lifecycle metriklerini takip eden ve churn riskini önceden gösteren dashboard', status: 'building' },
     ],
   },
@@ -110,7 +113,7 @@ const consultingServices: ConsultingService[] = [
     icon: 'W3',
     category: 'strategy',
     title: 'Web3 & Topluluk',
-    description: 'TOKEN2049\'da sahnedeydim, 100K+ topluluk yönettim. Blockchain projeleri için GTM, topluluk ve token lansman stratejisi kuruyorum.',
+    description: 'Dubai TOKEN2049\'da şirketi temsil ettim, 100K+ topluluk yönettim. Blockchain projeleri için GTM, topluluk ve token lansman stratejisi kuruyorum.',
     deliverables: ['Go-to-market & roadmap', 'Topluluk büyüme mekanikleri', 'Airdrop & engagement tasarımı'],
     tools: [
       { name: 'Community Health Score', description: 'Discord/Telegram topluluğunun sağlığını ölçen ve aksiyon öneren metrik sistemi', status: 'live' },
@@ -289,20 +292,35 @@ const projects: Project[] = [
       { date: '2026-01-24', type: 'feat', title: 'Proje başlangıcı', description: 'AI asistan altyapısı' },
     ],
   },
+  {
+    id: 'good-enough',
+    name: 'Good Enough',
+    description: 'Nörodiverjant aileler için empatik AI ebeveynlik koçu. Kişiselleştirilmiş onboarding, nöro-profil analizi ve 7/24 rehberlik.',
+    tech: ['Gemini', 'TypeScript', 'Vite', 'AI Studio'],
+    status: 'active',
+    accent: 'from-violet-400/70 to-purple-400/50',
+    url: 'https://github.com/AlperenDemirdoger1/Good-Enough',
+    timeline: [
+      { date: '2025-11-20', type: 'feat', title: 'Proje başlangıcı', description: 'AI Studio ile MVP' },
+    ],
+  },
 ]
 
-const goartAiProjects = [
-  { name: 'Telegram Bot', description: 'Kullanıcı etkileşimi, otomatik bildirimler ve AI destekli sohbet', tools: ['Telegram API', 'Node.js', 'GPT'] },
-  { name: 'GoArtStrategy', description: 'Sezonluk içerik planlaması, rakip analizi ve strateji dashboard\'u', tools: ['Next.js', 'Analytics', 'Data Viz'] },
-  { name: 'Performance Marketing Tool', description: 'Kampanya performans takibi, ROI analizi ve otomatik raporlama', tools: ['Python', 'Analytics API'] },
-  { name: 'Product Marketing Alignment', description: 'Ürün-pazar uyumu analizi ve go-to-market strateji', tools: ['Market Research', 'AI Analysis'] },
-  { name: 'Visual Kite', description: 'Marka uyumlu görseller, sosyal medya asset\'leri üretimi', tools: ['Nano Banana Pro', 'AI Image Gen'] },
-  { name: 'Manus Sunumları', description: 'Yatırımcı ve partner sunumları için AI destekli içerik', tools: ['Manus', 'Presentation AI'] },
+const growthPortfolio = [
+  { name: 'Bilet Dükkanı', downloads: '670K+', description: 'Etkinlik biletleme platformu', logo: '/logos/biletdukkani.png' },
+  { name: 'Face Yourself', downloads: '540K+', description: 'Kişisel gelişim uygulaması', logo: '/logos/faceyourself.webp' },
+  { name: 'GoArt Worlds', downloads: '455K+', description: 'Web3 gaming metaverse', logo: '/logos/goart.webp' },
+  { name: 'Self Therapy', downloads: '440K+', description: 'Mental sağlık uygulaması', logo: '/logos/selftherapy.webp' },
+  { name: 'Rise Online', downloads: '250K+', description: 'MMORPG oyun lansmanı', logo: '/logos/rise.png' },
+  { name: 'Echoses', downloads: '54K+', description: 'Ses tabanlı sosyal platform', logo: '/logos/echoses.webp' },
+  { name: 'Chakragram', downloads: '47K+', description: 'Human Design uygulaması', logo: '/logos/chakragram.webp' },
+  { name: 'Tanos', downloads: '5.9K+', description: 'Günlük rutin takip uygulaması', logo: '/logos/tanos.webp' },
 ]
+
 
 const careerExperiences: CareerExperience[] = [
   {
-    company: 'GoArt Worlds',
+    company: 'Roofstacks',
     role: 'Marketing Lead',
     period: 'Haziran 2024 - Devam',
     location: 'İstanbul, TR',
@@ -310,11 +328,14 @@ const careerExperiences: CareerExperience[] = [
     accent: 'from-blue-400/70 to-purple-400/50',
     highlights: [
       '5 kişilik ekip ve 3 ajansı yöneterek multimilyon dolarlık bütçeleri yönetip büyüme stratejisini direkt CEO ve yönetim kuruluna sundu',
-      'UA playbook ile 300K+ kayıtlı kullanıcıya ulaşıldı; Addressable, Telegram, Coinzilla, TikTok, Meta ve Google üzerinden kampanyalar yürütüldü',
+      'UA playbook ile 1M+ kayıtlı kullanıcıya ulaşıldı; Addressable, Telegram, Coinzilla, TikTok, Meta ve Google üzerinden kampanyalar yürütüldü',
       'Braze entegrasyonu ile 4 lifecycle otomasyon kurularak retention %12 artırıldı',
       'Trendyol, Halkbank, Polygon, Sui ile co-branding aktivasyonları; TOKEN2049 Dubai ve İstanbul Blockchain Week\'te şirketi temsil etti',
       'Claude, Manus, Gemini, GPT ile AI-first marketing workflow\'ları ölçeklendi; Jira ile agile süreçler kuruldu',
     ],
+    keyMetrics: ['1M+ kayıtlı kullanıcı', '%12 retention artışı', '5 kişilik ekip', '3 ajans yönetimi'],
+    keyProjects: ['UA Playbook', 'Braze Lifecycle Otomasyonu', 'TOKEN2049 Dubai', 'Co-brand Aktivasyonları'],
+    tools: ['Braze', 'AppsFlyer', 'Addressable', 'Claude', 'Manus', 'Jira', 'OpenAI', 'Gemini', 'Google Ads', 'Meta Ads', 'TikTok Ads', 'Telegram'],
   },
   {
     company: 'Teleporter Realities',
@@ -329,6 +350,9 @@ const careerExperiences: CareerExperience[] = [
       'Kapalı beta sürecinde 5.000 üyeli Discord topluluğu kurarak %70 retention elde etti',
       'Python tabanlı rakip analiz dashboard\'u geliştirerek Oculus pazar aktivitesini takip etti',
     ],
+    keyMetrics: ['%500 organik trafik artışı', '5K Discord üyesi', '%70 retention'],
+    keyProjects: ['VR GTM Stratejisi', 'Viral Marketing Kampanyası', 'Rakip Analiz Dashboard'],
+    tools: ['Discord', 'Python', '9GAG', 'Imgur', 'Oculus', 'OpenAI', 'Midjourney'],
   },
   {
     company: 'Rokogame Studios',
@@ -343,6 +367,9 @@ const careerExperiences: CareerExperience[] = [
       'Elraen ve WTCN gibi Twitch yayıncılarıyla referral trafikte %60 artış, 35.000+ üyeli Discord topluluğu',
       'Rise Online lansman kampanyası: 200.000 kayıt, 50.000 ilk gün aktif kullanıcı',
     ],
+    keyMetrics: ['200K kayıt', '50K DAU', '35K Discord', '$200K/ay bütçe'],
+    keyProjects: ['Rise Online Lansman', 'Roco Finance NFT', 'Influencer Kampanyası'],
+    tools: ['Google Ads', 'Meta Ads', 'TikTok', 'Twitch', 'Discord'],
   },
   {
     company: 'GoTürkiye (Kültür ve Turizm Bakanlığı)',
@@ -357,6 +384,9 @@ const careerExperiences: CareerExperience[] = [
       '"Taş Tepeler" inisiyatifinde Göbeklitepe dahil 12 arkeolojik alanın isimlendirmeden lansmana kadar sürecine katkı sağladı',
       '17 ülkeden 50 gazeteci ile PR coverage; Kültür ve Turizm Bakanı\'nın katılımıyla global görünürlük artırıldı',
     ],
+    keyMetrics: ['30M+ görüntüleme', '17 ülke PR', '12 arkeolojik alan', '50 gazeteci'],
+    keyProjects: ['Cercle Türkiye', 'Taş Tepeler Lansmanı', 'Göbeklitepe Kampanyası'],
+    tools: ['GoTürkiye Platform', 'Uluslararası Medya', 'PR Network'],
   },
   {
     company: 'Coca-Cola İçecek',
@@ -370,6 +400,9 @@ const careerExperiences: CareerExperience[] = [
       'Tüm perakende kanallarında görünürlük materyalleri planlayıp hayata geçirdi',
       'Promosyon kampanyaları için saha uygulamaları tasarlayıp ROI raporlaması yaptı',
     ],
+    keyMetrics: ['11 marka', 'Türkiye geneli perakende'],
+    keyProjects: ['Talep Planlaması', 'Görünürlük Projesi', 'ROI Raporlama'],
+    tools: ['SAP', 'Trade Marketing Tools'],
   },
   {
     company: 'Red Bull',
@@ -383,18 +416,38 @@ const careerExperiences: CareerExperience[] = [
       'Türkiye genelinde PoP, PoS ve soğutucu dağıtım ve yerleşimini yönetti',
       'Flugtag, Pac-Man, Red Bull Music Festivalleri gibi global aktivasyonların yerelleştirilmesini koordine etti',
     ],
+    keyMetrics: ['Türkiye geneli dağıtım', 'Global aktivasyonlar'],
+    keyProjects: ['Flugtag', 'Pac-Man', 'Red Bull Music Festival'],
+    tools: ['PoP/PoS Sistemleri', 'Aktivasyon Yönetimi'],
   },
   {
-    company: 'Kendi Girişimi',
-    role: 'E-ticaret Girişimcisi',
-    period: '2015 - 2018',
+    company: 'Future Factory Network',
+    role: 'Kurucu Ortak',
+    period: '2013 - 2018',
     location: 'İstanbul, TR',
     type: 'entrepreneurship',
-    accent: 'from-amber-400/70 to-yellow-400/50',
+    accent: 'from-purple-400/70 to-pink-400/50',
     highlights: [
-      'Made-to-order neon tabelalar ve wind wheel sistemleri tasarlayıp üretti',
-      'Etsy ve Shopify üzerinden uçtan uca satış operasyonu kurdu: ürün geliştirme, fotoğrafçılık, SEO, pazarlama, müşteri hizmetleri, lojistik',
-      'Pazar analizi sonrası stratejik karar ile sonlandırıldı. Etsy\'deki en iyi satıcılar bile yeterli kar marjına sahip değildi',
+      'Etkinlik organizasyonu ve pazarlama ajansı kurarak mekan ve firma müşterilerine mikro-influencer stratejileri sundu',
+      'Parti, konser ve festivaller dahil yaklaşık 80 üniversite etkinliği organize ederek tüm kurumsal süreçleri yönetti',
+      'Garanti KonserV gibi iş ortaklıkları kurdu; Anadolu Efes, Pernod Ricard, Philip Morris gibi sponsor firmalarla çalıştı',
+      '1.500+ öğrenci promoter ekibi kurarak yönetti; marketing stratejileri ve mekan içi aktivasyonlar tasarladı',
+    ],
+    keyMetrics: ['80+ etkinlik', '1.500+ promoter', '5 yıl operasyon'],
+    keyProjects: ['Üniversite Festivalleri', 'Garanti KonserV', 'Sponsor Aktivasyonları'],
+    tools: ['Event Marketing', 'Influencer Network', 'Sponsor Relations'],
+  },
+  {
+    company: 'Staj Tecrübelerim',
+    role: 'Red Bull, Pubinno, Atasun Optik',
+    period: '2015 - 2017',
+    location: 'İstanbul, TR',
+    type: 'internship',
+    accent: 'from-slate-400/70 to-zinc-400/50',
+    highlights: [
+      'Red Bull - Shopper marketing departmanında staj',
+      'Pubinno - IoT ve bira teknolojisi startup\'ında staj',
+      'Atasun Optik - Perakende operasyonları ve mağaza yönetimi',
     ],
   },
 ]
@@ -511,14 +564,12 @@ function SectionDivider() {
 
 function App() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
-  const [projectFilter, setProjectFilter] = useState<'all' | 'active' | 'paused'>('all')
-  const [expandedExp, setExpandedExp] = useState<string | null>(null)
+    const [expandedExp, setExpandedExp] = useState<string | null>(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('')
   const [githubCommits, setGithubCommits] = useState<GitHubCommit[]>([])
   const [serviceCategory, setServiceCategory] = useState<ServiceCategory>('all')
-  const [expandedService, setExpandedService] = useState<string | null>(null)
-  const { scrollYProgress } = useScroll()
+    const { scrollYProgress } = useScroll()
 
   // GitHub activity fetch
   useEffect(() => {
@@ -687,9 +738,8 @@ function App() {
               </span>
             </h1>
             <p className="max-w-2xl text-lg text-slate-300 sm:text-xl leading-relaxed">
-              Ben Alperen. Red Bull'dan Coca-Cola'ya, Web3 gaming'den Bakanlığa. 8 yıldır
+              Ben Alperen. Red Bull'dan Coca-Cola'ya, Web3 gaming'den Bakanlığa. 10+ yıldır
               gürültüde farkedilen kampanyalar kuruyorum. Gece de AI ile kendi ürünlerimi build ediyorum.
-              İkisini birleştirince ortaya bu çıkıyor.
             </p>
           </motion.div>
 
@@ -797,165 +847,6 @@ function App() {
 
         <SectionDivider />
 
-        {/* ─────────── Services Section ─────────── */}
-        <section id="hizmetler" className="mb-8">
-          <motion.div
-            className="mb-8"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-80px' }}
-            variants={fadeIn}
-          >
-            <span className="text-xs font-semibold uppercase tracking-widest text-cyan-400 mb-3 block">Hizmetler</span>
-            <h2 className="text-3xl font-display font-semibold text-white mb-2">Senin için ne yapabilirim?</h2>
-            <p className="text-slate-400 max-w-2xl">
-              Sadece danışmanlık değil. Her paketin arkasında kendi build ettiğim araçlar var.
-            </p>
-          </motion.div>
-
-          {/* Category filter pills */}
-          <div className="flex flex-wrap gap-2 mb-8">
-            {([
-              { key: 'all' as ServiceCategory, label: 'Tümü' },
-              { key: 'strategy' as ServiceCategory, label: 'Strateji & Growth' },
-              { key: 'ai' as ServiceCategory, label: 'AI & Otomasyon' },
-              { key: 'data' as ServiceCategory, label: 'Veri & Analiz' },
-              { key: 'production' as ServiceCategory, label: 'Üretim & E-ticaret' },
-            ]).map((cat) => (
-              <button
-                key={cat.key}
-                onClick={() => setServiceCategory(cat.key)}
-                className={`text-xs px-4 py-2 rounded-full border transition-all ${
-                  serviceCategory === cat.key
-                    ? 'border-cyan-400/50 bg-cyan-400/10 text-cyan-300'
-                    : 'border-white/10 bg-white/5 text-slate-400 hover:border-white/20'
-                }`}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Service cards */}
-          <div className="grid gap-5 md:grid-cols-2">
-            <AnimatePresence mode="popLayout">
-              {consultingServices
-                .filter((s) => serviceCategory === 'all' || s.category === serviceCategory)
-                .map((service) => {
-                  const isToolsOpen = expandedService === service.title
-                  const liveCount = service.tools.filter((t) => t.status === 'live').length
-
-                  return (
-                    <motion.div
-                      key={service.title}
-                      layout
-                      className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur transition-all duration-300 hover:border-cyan-400/30 hover:bg-white/[0.07]"
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.95 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/5 to-indigo-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                      <div className="relative">
-                        {/* Header row */}
-                        <div className="flex items-start gap-4 mb-3">
-                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400/20 to-indigo-400/20 border border-white/10">
-                            <span className="text-xs font-bold text-cyan-300">{service.icon}</span>
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <h3 className="text-base font-semibold text-white leading-tight">{service.title}</h3>
-                            <p className="text-sm text-slate-400 mt-1 leading-relaxed">{service.description}</p>
-                          </div>
-                        </div>
-
-                        {/* Deliverables - compact */}
-                        <div className="flex flex-wrap gap-2 mb-4">
-                          {service.deliverables.map((item) => (
-                            <span key={item} className="inline-flex items-center gap-1 text-xs text-slate-400 bg-white/5 rounded-full px-2.5 py-1">
-                              <span className="text-emerald-400">✓</span>
-                              {item}
-                            </span>
-                          ))}
-                        </div>
-
-                        {/* Tools toggle */}
-                        <button
-                          onClick={() => setExpandedService(isToolsOpen ? null : service.title)}
-                          className="flex items-center gap-2 text-xs text-slate-500 hover:text-cyan-300 transition-colors w-full pt-3 border-t border-white/5"
-                        >
-                          <span className="flex items-center gap-1.5">
-                            <span className="flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                            {liveCount} araç aktif
-                          </span>
-                          <span className="text-slate-600">&middot;</span>
-                          <span>{service.tools.length} araç dahil</span>
-                          <span className="ml-auto text-[10px]">{isToolsOpen ? '▲' : '▼'}</span>
-                        </button>
-
-                        {/* Tools - collapsible */}
-                        <AnimatePresence>
-                          {isToolsOpen && (
-                            <motion.div
-                              className="overflow-hidden"
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: 'auto', opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              transition={{ duration: 0.25 }}
-                            >
-                              <div className="space-y-2 pt-3">
-                                {service.tools.map((tool) => (
-                                  <div key={tool.name} className="flex items-start gap-2 rounded-lg bg-white/[0.03] border border-white/5 px-3 py-2">
-                                    <div className="flex-1 min-w-0">
-                                      <div className="flex items-center gap-2 mb-0.5">
-                                        <span className="text-sm font-medium text-white">{tool.name}</span>
-                                        <span className={`shrink-0 text-[10px] px-1.5 py-0.5 rounded-full font-medium ${
-                                          tool.status === 'live'
-                                            ? 'bg-emerald-400/15 text-emerald-300'
-                                            : tool.status === 'building'
-                                            ? 'bg-amber-400/15 text-amber-300'
-                                            : 'bg-slate-400/15 text-slate-400'
-                                        }`}>
-                                          {tool.status === 'live' ? 'Aktif' : tool.status === 'building' ? 'Geliştiriliyor' : 'Planlanıyor'}
-                                        </span>
-                                      </div>
-                                      <p className="text-xs text-slate-500 leading-relaxed">{tool.description}</p>
-                                    </div>
-                                  </div>
-                                ))}
-                              </div>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </div>
-                    </motion.div>
-                  )
-                })}
-            </AnimatePresence>
-          </div>
-
-          {/* CTA banner */}
-          <motion.div
-            className="mt-10 rounded-2xl border border-cyan-400/20 bg-gradient-to-r from-cyan-400/5 via-indigo-400/5 to-emerald-400/5 p-8 text-center backdrop-blur"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeIn}
-          >
-            <p className="text-lg text-white font-medium mb-5">30 dk konuşalım, yol haritanı çıkaralım</p>
-            <motion.a
-              href="mailto:alperen.demirdoger@gmail.com?subject=AI%20Danismanlik%20Gorusmesi"
-              whileHover={{ y: -2, scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-400 via-cyan-300 to-indigo-300 px-8 py-3.5 text-sm font-semibold text-slate-900 shadow-glow transition"
-            >
-              Hadi konuşalım
-              <span>&rarr;</span>
-            </motion.a>
-          </motion.div>
-        </section>
-
-        <SectionDivider />
-
         {/* ─────────── Projects Section ─────────── */}
         <section id="projeler" className="mb-8">
           <motion.div
@@ -973,25 +864,8 @@ function App() {
             </p>
           </motion.div>
 
-          {/* Filter pills */}
-          <div className="flex gap-2 mb-6">
-            {(['all', 'active', 'paused'] as const).map((filter) => (
-              <button
-                key={filter}
-                onClick={() => setProjectFilter(filter)}
-                className={`text-xs px-4 py-2 rounded-full border transition-all ${
-                  projectFilter === filter
-                    ? 'border-cyan-400/50 bg-cyan-400/10 text-cyan-300'
-                    : 'border-white/10 bg-white/5 text-slate-400 hover:border-white/20'
-                }`}
-              >
-                {filter === 'all' ? 'Tümü' : filter === 'active' ? 'Aktif' : 'Beklemede'}
-              </button>
-            ))}
-          </div>
-
           {/* Featured project - Dopa.Live */}
-          {projectFilter !== 'paused' && (
+          {(
             <motion.div
               className={`relative overflow-hidden rounded-2xl border p-8 backdrop-blur mb-6 cursor-pointer group transition-all duration-300 ${
                 selectedProject?.id === 'dopa-live' ? 'border-cyan-400/50 bg-white/[0.07]' : 'border-white/10 bg-white/5 hover:border-white/20'
@@ -1033,8 +907,7 @@ function App() {
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {projects
               .slice(1)
-              .filter((p) => projectFilter === 'all' || p.status === projectFilter)
-              .map((project, index) => (
+                            .map((project, index) => (
                 <motion.div
                   key={project.id}
                   className={`relative overflow-hidden rounded-2xl border bg-white/5 p-6 backdrop-blur cursor-pointer group transition-all duration-300 ${
@@ -1175,16 +1048,43 @@ function App() {
             variants={fadeIn}
           >
             {[
-              { value: '8+ yıl', color: 'text-cyan-300' },
+              { value: '10+ yıl', color: 'text-cyan-300' },
               { value: '7 şirket', color: 'text-emerald-300' },
               { value: '1 girişim', color: 'text-amber-300' },
-              { value: '3 ülke', color: 'text-violet-300' },
               { value: 'ITU MSc + Boğaziçi BA', color: 'text-indigo-300' },
             ].map((stat) => (
               <span key={stat.value} className={`text-xs px-3 py-1.5 rounded-full border border-white/10 bg-white/5 ${stat.color}`}>
                 {stat.value}
               </span>
             ))}
+          </motion.div>
+
+          {/* Growth Portfolio - 2.5M+ Downloads */}
+          <motion.div
+            className="mb-12"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeIn}
+          >
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-lg font-semibold text-white">Büyüttüğüm Ürünler</h3>
+              <span className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-emerald-300">2.5M+ indirme</span>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {growthPortfolio.map((project) => (
+                <div key={project.name} className="rounded-xl border border-white/10 bg-white/5 p-4 backdrop-blur hover:border-cyan-400/30 transition-colors">
+                  <div className="flex items-center gap-3 mb-2">
+                    <img src={project.logo} alt={project.name} className="h-10 w-10 shrink-0 rounded-xl object-contain" />
+                    <div>
+                      <h4 className="text-white font-medium text-sm">{project.name}</h4>
+                      <p className="text-xs text-cyan-300 font-semibold">{project.downloads}</p>
+                    </div>
+                  </div>
+                  <p className="text-xs text-slate-400">{project.description}</p>
+                </div>
+              ))}
+            </div>
           </motion.div>
 
           {/* Career timeline */}
@@ -1195,7 +1095,6 @@ function App() {
               {careerExperiences.map((exp, index) => {
                 const isCurrent = index === 0
                 const isExpanded = expandedExp === exp.company
-                const visibleHighlights = isCurrent || isExpanded ? exp.highlights : exp.highlights.slice(0, 2)
 
                 return (
                   <motion.div
@@ -1232,6 +1131,9 @@ function App() {
                               {exp.type === 'entrepreneurship' && (
                                 <span className="text-xs px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-300">Girişim</span>
                               )}
+                              {exp.type === 'internship' && (
+                                <span className="text-xs px-2 py-0.5 rounded-full bg-slate-400/20 text-slate-300">Staj</span>
+                              )}
                             </div>
                             <p className="text-sm text-cyan-300">{exp.role}</p>
                           </div>
@@ -1242,41 +1144,73 @@ function App() {
                           </div>
                         </div>
 
-                        <ul className="space-y-1.5 mt-3">
-                          {visibleHighlights.map((highlight, i) => (
-                            <li key={i} className="flex gap-2 text-sm text-slate-300">
-                              <span className="text-cyan-400/60 mt-1 shrink-0">&#9656;</span>
-                              <span>{highlight}</span>
-                            </li>
-                          ))}
-                        </ul>
-                        {!isCurrent && exp.highlights.length > 2 && (
+                        {/* Key Metrics, Projects, Tools - always visible */}
+                        {(exp.keyMetrics || exp.keyProjects || exp.tools) && (
+                          <div className="grid gap-4 mt-3 sm:grid-cols-3">
+                            {exp.keyMetrics && exp.keyMetrics.length > 0 && (
+                              <div>
+                                <p className="text-xs text-cyan-400 font-medium mb-2">Key Metrics</p>
+                                <div className="flex flex-wrap gap-1.5">
+                                  {exp.keyMetrics.map((metric) => (
+                                    <span key={metric} className="text-xs px-2 py-1 rounded-full bg-cyan-400/10 text-cyan-300 border border-cyan-400/20">{metric}</span>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                            {exp.keyProjects && exp.keyProjects.length > 0 && (
+                              <div>
+                                <p className="text-xs text-emerald-400 font-medium mb-2">Key Projects</p>
+                                <div className="flex flex-wrap gap-1.5">
+                                  {exp.keyProjects.map((project) => (
+                                    <span key={project} className="text-xs px-2 py-1 rounded-full bg-emerald-400/10 text-emerald-300 border border-emerald-400/20">{project}</span>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                            {exp.tools && exp.tools.length > 0 && (
+                              <div>
+                                <p className="text-xs text-violet-400 font-medium mb-2">Tools</p>
+                                <div className="flex flex-wrap gap-1.5">
+                                  {exp.tools.map((tool) => (
+                                    <span key={tool} className="text-xs px-2 py-1 rounded-full bg-violet-400/10 text-violet-300 border border-violet-400/20">{tool}</span>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        )}
+
+                        {/* Expandable highlights - detailed text */}
+                        <AnimatePresence>
+                          {isExpanded && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: 'auto', opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.25 }}
+                              className="overflow-hidden"
+                            >
+                              <ul className="space-y-1.5 mt-4 pt-4 border-t border-white/10">
+                                {exp.highlights.map((highlight, i) => (
+                                  <li key={i} className="flex gap-2 text-sm text-slate-300">
+                                    <span className="text-cyan-400/60 mt-1 shrink-0">&#9656;</span>
+                                    <span>{highlight}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+
+                        {exp.highlights.length > 0 && (
                           <button
                             onClick={() => setExpandedExp(isExpanded ? null : exp.company)}
-                            className="text-xs text-cyan-400 mt-2 hover:text-cyan-300 transition-colors"
+                            className="text-xs text-cyan-400 mt-3 hover:text-cyan-300 transition-colors flex items-center gap-1"
                           >
-                            {isExpanded ? 'Daha az göster' : `+${exp.highlights.length - 2} daha fazla`}
+                            {isExpanded ? 'Detayları gizle ▲' : 'Detayları gör ▼'}
                           </button>
                         )}
 
-                        {isCurrent && (
-                          <div className="mt-4 pt-4 border-t border-white/5">
-                            <p className="text-xs text-slate-400 mb-2 uppercase tracking-wider">AI Projeleri</p>
-                            <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3">
-                              {goartAiProjects.map((project) => (
-                                <div key={project.name} className="rounded-xl border border-white/5 bg-white/5 p-2.5">
-                                  <h4 className="text-white text-sm font-medium mb-0.5">{project.name}</h4>
-                                  <p className="text-xs text-slate-400 mb-1.5">{project.description}</p>
-                                  <div className="flex flex-wrap gap-1">
-                                    {project.tools.map((tool) => (
-                                      <span key={tool} className="text-xs px-1.5 py-0.5 rounded-full bg-white/10 text-slate-300">{tool}</span>
-                                    ))}
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        )}
                       </div>
                     </div>
                   </motion.div>
@@ -1336,6 +1270,96 @@ function App() {
               </div>
             </motion.div>
           </div>
+        </section>
+
+        <SectionDivider />
+
+        {/* ─────────── Services Section ─────────── */}
+        <section id="hizmetler" className="mb-8">
+          <motion.div
+            className="mb-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-80px' }}
+            variants={fadeIn}
+          >
+            <h2 className="text-3xl font-display font-semibold text-white mb-2">Senin için ne yapabilirim?</h2>
+            <p className="text-slate-400 max-w-2xl">
+              Sadece danışmanlık değil. Her paketin arkasında kendi build ettiğim araçlar var.
+            </p>
+          </motion.div>
+
+          {/* Category filter pills */}
+          <div className="flex flex-wrap gap-2 mb-8">
+            {([
+              { key: 'all' as ServiceCategory, label: 'Tümü' },
+              { key: 'strategy' as ServiceCategory, label: 'Strateji & Growth' },
+              { key: 'ai' as ServiceCategory, label: 'AI & Otomasyon' },
+              { key: 'data' as ServiceCategory, label: 'Veri & Analiz' },
+              { key: 'production' as ServiceCategory, label: 'Üretim & E-ticaret' },
+            ]).map((cat) => (
+              <button
+                key={cat.key}
+                onClick={() => setServiceCategory(cat.key)}
+                className={`text-xs px-4 py-2 rounded-full border transition-all ${
+                  serviceCategory === cat.key
+                    ? 'border-cyan-400/50 bg-cyan-400/10 text-cyan-300'
+                    : 'border-white/10 bg-white/5 text-slate-400 hover:border-white/20'
+                }`}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Service cards */}
+          <div className="grid gap-5 md:grid-cols-2">
+            <AnimatePresence mode="popLayout">
+              {consultingServices
+                .filter((s) => serviceCategory === 'all' || s.category === serviceCategory)
+                .map((service) => {
+                  return (
+                    <motion.div
+                      key={service.title}
+                      layout
+                      className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur transition-all duration-300 hover:border-cyan-400/30 hover:bg-white/[0.07]"
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/5 to-indigo-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      <div className="relative">
+                        <div className="mb-3">
+                          <h3 className="text-base font-semibold text-white leading-tight">{service.title}</h3>
+                          <p className="text-sm text-slate-400 mt-1 leading-relaxed">{service.description}</p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )
+                })}
+            </AnimatePresence>
+          </div>
+
+          {/* CTA banner */}
+          <motion.div
+            className="mt-10 rounded-2xl border border-cyan-400/20 bg-gradient-to-r from-cyan-400/5 via-indigo-400/5 to-emerald-400/5 p-8 text-center backdrop-blur"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeIn}
+          >
+            <p className="text-lg text-white font-medium mb-5">30 dk konuşalım, yol haritanı çıkaralım</p>
+            <motion.a
+              href="mailto:alperen.demirdoger@gmail.com?subject=AI%20Danismanlik%20Gorusmesi"
+              whileHover={{ y: -2, scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-400 via-cyan-300 to-indigo-300 px-8 py-3.5 text-sm font-semibold text-slate-900 shadow-glow transition"
+            >
+              Hadi konuşalım
+              <span>&rarr;</span>
+            </motion.a>
+          </motion.div>
         </section>
 
         <SectionDivider />
